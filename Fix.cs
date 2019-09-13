@@ -41,7 +41,9 @@ namespace FixedPointy {
 		public static readonly Fix MaxValue = new Fix(int.MaxValue);
 		public static readonly Fix Epsilon = new Fix(1);
 
-		static Fix () {
+        internal const long ONE_RAW = 1 << FRACTIONAL_BITS;
+
+        static Fix () {
 			if (FRACTIONAL_BITS < 8)
 				throw new Exception("Fix must have at least 8 fractional bits.");
 			if (INTEGER_BITS < 10)
@@ -80,7 +82,17 @@ namespace FixedPointy {
 			return (float)(double)value;
 		}
 
-		public static explicit operator int (Fix value) {
+        public static explicit operator Fix(double value)
+        {
+            return new Fix((int)(value * ONE_RAW));
+        }
+
+        public static explicit operator Fix(float value)
+        {
+            return new Fix((int)((double)value * ONE_RAW));
+        }
+
+        public static explicit operator int (Fix value) {
 			if (value._raw > 0)
 				return value._raw >> FRACTIONAL_BITS;
 			else
