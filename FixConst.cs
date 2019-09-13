@@ -25,6 +25,7 @@ using System;
 using System.Text;
 
 namespace FixedPointy {
+    [Serializable]
 	public struct FixConst {
 		public static explicit operator double (FixConst f) {
 			return (double)(f._raw >> 32) + ((uint)(f._raw) / (uint.MaxValue + 1.0));

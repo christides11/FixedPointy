@@ -24,6 +24,7 @@
 using System;
 
 namespace FixedPointy {
+    [Serializable]
 	public struct FixVec2 {
 		public static readonly FixVec2 Zero = new FixVec2();
 		public static readonly FixVec2 One = new FixVec2(1, 1);

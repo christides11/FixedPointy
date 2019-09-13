@@ -25,6 +25,7 @@ using System;
 using System.Text;
 
 namespace FixedPointy {
+    [Serializable]
 	public struct Fix {
 		internal const int FRACTIONAL_BITS = 16;
 

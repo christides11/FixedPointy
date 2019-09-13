@@ -24,6 +24,7 @@
 using System;
 
 namespace FixedPointy {
+    [Serializable]
 	public struct FixTrans2 {
 		public static readonly FixTrans2 Identity = new FixTrans2(
 			1, 0, 0,
