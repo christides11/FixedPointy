@@ -94,6 +94,12 @@ namespace FixedPointy {
 			return new Fix((int)(FixMath.SqrtULong(N << 2) + 1) >> 1);
 		}
 
+        public Fix GetMagnitudeSquared()
+        {
+            ulong N = (ulong)((long)_x.Raw * (long)_x.Raw + (long)_y.Raw * (long)_y.Raw);
+            return new Fix((int)((N << 2)+1) >> 1);
+        }
+
 		public FixVec2 Normalize () {
 			if (_x == 0 && _y == 0)
 				return FixVec2.Zero;
