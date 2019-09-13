@@ -96,8 +96,7 @@ namespace FixedPointy {
 
         public Fix GetMagnitudeSquared()
         {
-            ulong N = (ulong)((long)_x.Raw * (long)_x.Raw + (long)_y.Raw * (long)_y.Raw);
-            return new Fix((int)((N << 2)+1) >> 1);
+            return (_x*_x)+(_y*_y);
         }
 
 		public FixVec2 Normalize () {

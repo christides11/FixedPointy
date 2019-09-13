@@ -74,8 +74,8 @@ namespace FixedPointy {
 			return new Fix((int)((((long)numerator << (FRACTIONAL_BITS + 1)) / (long)denominator + 1) >> 1));
 		}
 
-		public static explicit operator double (Fix value) {
-			return (double)(value._raw >> FRACTIONAL_BITS) + (value._raw & FRACTION_MASK) / (double)FRACTION_RANGE;
+        public static explicit operator double (Fix value) {
+		 	return (double)(value._raw >> FRACTIONAL_BITS) + (value._raw & FRACTION_MASK) / (double)FRACTION_RANGE;
 		}
 
 		public static explicit operator float (Fix value) {
