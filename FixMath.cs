@@ -94,6 +94,19 @@ namespace FixedPointy {
 			return v1 > v2 ? v1 : v2;
 		}
 
+        public static Fix Clamp(Fix value, Fix minValue, Fix maxValue)
+        {
+            if(value > maxValue)
+            {
+                value = maxValue;
+            }else if(value < minValue)
+            {
+                value = minValue;
+            }
+
+            return value;
+        }
+
 		public static Fix Sqrt (Fix value) {
 			if (value.Raw < 0)
 				throw new ArgumentOutOfRangeException("value", "Value must be non-negative.");
