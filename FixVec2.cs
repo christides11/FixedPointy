@@ -76,7 +76,7 @@ namespace FixedPointy {
 			return new FixVec2(lhs._x / rhs, lhs._y / rhs);
 		}
 
-		Fix _x, _y;
+		public Fix _x, _y;
 
 		public FixVec2 (Fix x, Fix y) {
 			_x = x;

@@ -31,7 +31,12 @@ namespace FixedPointy {
 			return (double)(f.raw >> 32) + ((uint)(f.raw) / (uint.MaxValue + 1.0));
 		}
 
-		public static implicit operator FixConst (double value) {
+        public static explicit operator float(FixConst value)
+        {
+            return (float)(double)value;
+        }
+
+        public static implicit operator FixConst (double value) {
 			if (value < int.MinValue || value >= int.MaxValue + 1L)
 				throw new OverflowException();
 
