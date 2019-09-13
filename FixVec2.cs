@@ -30,7 +30,19 @@ namespace FixedPointy {
 		public static readonly FixVec2 UnitX = new FixVec2(1, 0);
 		public static readonly FixVec2 UnitY = new FixVec2(0, 1);
 
-		public static FixVec2 operator + (FixVec2 rhs) {
+        public static bool operator ==(FixVec2 lhs, FixVec2 rhs)
+        {
+            return lhs.X.Raw == rhs.X.Raw
+                && lhs.Y.Raw == rhs.Y.Raw;
+        }
+
+        public static bool operator !=(FixVec2 lhs, FixVec2 rhs)
+        {
+            return lhs.X.Raw != rhs.X.Raw
+                || lhs.Y.Raw != rhs.Y.Raw;
+        }
+
+        public static FixVec2 operator + (FixVec2 rhs) {
 			return rhs;
 		}
 		public static FixVec2 operator - (FixVec2 rhs) {
@@ -110,5 +122,24 @@ namespace FixedPointy {
 		public override string ToString () {
 			return string.Format("({0}, {1})", _x, _y);
 		}
-	}
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                FixVec2 fv = (FixVec2)obj;
+                return _x.Raw == fv._x.Raw && _y.Raw == fv._y.Raw;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return _x.Raw.GetHashCode() ^ _y.Raw.GetHashCode() << 2;
+        }
+    }
 }
