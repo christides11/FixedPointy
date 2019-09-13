@@ -28,7 +28,7 @@ namespace FixedPointy {
     [Serializable]
 	public struct FixConst {
 		public static explicit operator double (FixConst f) {
-			return (double)(f._raw >> 32) + ((uint)(f._raw) / (uint.MaxValue + 1.0));
+			return (double)(f.raw >> 32) + ((uint)(f.raw) / (uint.MaxValue + 1.0));
 		}
 
 		public static implicit operator FixConst (double value) {
@@ -40,14 +40,14 @@ namespace FixedPointy {
 		}
 
 		public static implicit operator Fix (FixConst value) {
-			return new Fix((int)((value.Raw + (1 << (32 - Fix.FRACTIONAL_BITS - 1))) >> (32 - Fix.FRACTIONAL_BITS)));
+			return new Fix((int)((value.raw + (1 << (32 - Fix.FRACTIONAL_BITS - 1))) >> (32 - Fix.FRACTIONAL_BITS)));
 		}
 
 		public static explicit operator int (FixConst value) {
-			if (value._raw > 0)
-				return (int)(value._raw >> 32);
+			if (value.raw > 0)
+				return (int)(value.raw >> 32);
 			else
-				return (int)((value._raw + uint.MaxValue) >> 32);
+				return (int)((value.raw + uint.MaxValue) >> 32);
 		}
 
 		public static implicit operator FixConst (int value) {
@@ -55,27 +55,27 @@ namespace FixedPointy {
 		}
 
 		public static bool operator == (FixConst lhs, FixConst rhs) {
-			return lhs._raw == rhs._raw;
+			return lhs.raw == rhs.raw;
 		}
 
 		public static bool operator != (FixConst lhs, FixConst rhs) {
-			return lhs._raw != rhs._raw;
+			return lhs.raw != rhs.raw;
 		}
 
 		public static bool operator > (FixConst lhs, FixConst rhs) {
-			return lhs._raw > rhs._raw;
+			return lhs.raw > rhs.raw;
 		}
 
 		public static bool operator >= (FixConst lhs, FixConst rhs) {
-			return lhs._raw >= rhs._raw;
+			return lhs.raw >= rhs.raw;
 		}
 
 		public static bool operator < (FixConst lhs, FixConst rhs) {
-			return lhs._raw < rhs._raw;
+			return lhs.raw < rhs.raw;
 		}
 
 		public static bool operator <= (FixConst lhs, FixConst rhs) {
-			return lhs._raw <= rhs._raw;
+			return lhs.raw <= rhs.raw;
 		}
 
 		public static FixConst operator + (FixConst value) {
@@ -83,37 +83,57 @@ namespace FixedPointy {
 		}
 
 		public static FixConst operator - (FixConst value) {
-			return new FixConst(-value._raw);
+			return new FixConst(-value.raw);
 		}
 
-		long _raw;
+        public static string RawToString(long _raw)
+        {
+            var sb = new StringBuilder();
+            if (_raw < 0)
+                sb.Append(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NegativeSign);
+            long abs = (int)(new FixConst(_raw));
+            abs = abs < 0 ? -abs : abs;
+            sb.Append(abs.ToString());
+            ulong fraction = (ulong)(_raw & uint.MaxValue);
+            if (fraction == 0)
+                return sb.ToString();
 
-		public FixConst (long raw) {
-			_raw = raw;
+            fraction = _raw < 0 ? (uint.MaxValue + 1L) - fraction : fraction;
+            fraction *= 1000000000L;
+            fraction += (uint.MaxValue + 1L) >> 1;
+            fraction >>= 32;
+
+            sb.Append(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            sb.Append(fraction.ToString("D9").TrimEnd('0'));
+            return sb.ToString();
+        }
+
+        public long raw;
+
+		public FixConst (long _raw) {
+			raw = _raw;
 		}
-
-		public long Raw { get { return _raw; } }
 
 		public override bool Equals (object obj) {
 			return (obj is FixConst && ((FixConst)obj) == this);
 		}
 
 		public override int GetHashCode () {
-			return Raw.GetHashCode();
+			return raw.GetHashCode();
 		}
 
 		public override string ToString () {
 			var sb = new StringBuilder();
-			if (_raw < 0)
+			if (raw < 0)
 				sb.Append(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NegativeSign);
 			long abs = (int)this;
 			abs = abs < 0 ? -abs : abs;
 			sb.Append(abs.ToString());
-			ulong fraction = (ulong)(_raw & uint.MaxValue);
+			ulong fraction = (ulong)(raw & uint.MaxValue);
 			if (fraction == 0)
 				return sb.ToString();
 
-			fraction = _raw < 0 ? (uint.MaxValue + 1L) - fraction : fraction;
+			fraction = raw < 0 ? (uint.MaxValue + 1L) - fraction : fraction;
 			fraction *= 1000000000L;
 			fraction += (uint.MaxValue + 1L) >> 1;
 			fraction >>= 32;

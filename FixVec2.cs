@@ -33,14 +33,14 @@ namespace FixedPointy {
 
         public static bool operator ==(FixVec2 lhs, FixVec2 rhs)
         {
-            return lhs.X.Raw == rhs.X.Raw
-                && lhs.Y.Raw == rhs.Y.Raw;
+            return lhs.X.raw == rhs.X.raw
+                && lhs.Y.raw == rhs.Y.raw;
         }
 
         public static bool operator !=(FixVec2 lhs, FixVec2 rhs)
         {
-            return lhs.X.Raw != rhs.X.Raw
-                || lhs.Y.Raw != rhs.Y.Raw;
+            return lhs.X.raw != rhs.X.raw
+                || lhs.Y.raw != rhs.Y.raw;
         }
 
         public static FixVec2 operator + (FixVec2 rhs) {
@@ -102,7 +102,7 @@ namespace FixedPointy {
 		}
 
 		public Fix GetMagnitude () {
-			ulong N = (ulong)((long)_x.Raw * (long)_x.Raw + (long)_y.Raw * (long)_y.Raw);
+			ulong N = (ulong)((long)_x.raw * (long)_x.raw + (long)_y.raw * (long)_y.raw);
 
 			return new Fix((int)(FixMath.SqrtULong(N << 2) + 1) >> 1);
 		}
@@ -134,13 +134,13 @@ namespace FixedPointy {
             else
             {
                 FixVec2 fv = (FixVec2)obj;
-                return _x.Raw == fv._x.Raw && _y.Raw == fv._y.Raw;
+                return _x == fv._x.raw && _y.raw == fv._y.raw;
             }
         }
 
         public override int GetHashCode()
         {
-            return _x.Raw.GetHashCode() ^ _y.Raw.GetHashCode() << 2;
+            return _x.raw.GetHashCode() ^ _y.raw.GetHashCode() << 2;
         }
     }
 }

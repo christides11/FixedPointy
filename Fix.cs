@@ -76,7 +76,7 @@ namespace FixedPointy {
 		}
 
         public static explicit operator double (Fix value) {
-		 	return (double)(value._raw >> FRACTIONAL_BITS) + (value._raw & FRACTION_MASK) / (double)FRACTION_RANGE;
+		 	return (double)(value.raw >> FRACTIONAL_BITS) + (value.raw & FRACTION_MASK) / (double)FRACTION_RANGE;
 		}
 
 		public static explicit operator float (Fix value) {
@@ -94,10 +94,10 @@ namespace FixedPointy {
         }
 
         public static explicit operator int (Fix value) {
-			if (value._raw > 0)
-				return value._raw >> FRACTIONAL_BITS;
+			if (value.raw > 0)
+				return value.raw >> FRACTIONAL_BITS;
 			else
-				return (value._raw + FRACTION_MASK) >> FRACTIONAL_BITS;
+				return (value.raw + FRACTION_MASK) >> FRACTIONAL_BITS;
 		}
 
 		public static implicit operator Fix (int value) {
@@ -105,27 +105,27 @@ namespace FixedPointy {
 		}
 
 		public static bool operator == (Fix lhs, Fix rhs) {
-			return lhs._raw == rhs._raw;
+			return lhs.raw == rhs.raw;
 		}
 
 		public static bool operator != (Fix lhs, Fix rhs) {
-			return lhs._raw != rhs._raw;
+			return lhs.raw != rhs.raw;
 		}
 
 		public static bool operator > (Fix lhs, Fix rhs) {
-			return lhs._raw > rhs._raw;
+			return lhs.raw > rhs.raw;
 		}
 
 		public static bool operator >= (Fix lhs, Fix rhs) {
-			return lhs._raw >= rhs._raw;
+			return lhs.raw >= rhs.raw;
 		}
 
 		public static bool operator < (Fix lhs, Fix rhs) {
-			return lhs._raw < rhs._raw;
+			return lhs.raw < rhs.raw;
 		}
 
 		public static bool operator <= (Fix lhs, Fix rhs) {
-			return lhs._raw <= rhs._raw;
+			return lhs.raw <= rhs.raw;
 		}
 
 		public static Fix operator + (Fix value) {
@@ -133,65 +133,63 @@ namespace FixedPointy {
 		}
 
 		public static Fix operator - (Fix value) {
-			return new Fix(-value._raw);
+			return new Fix(-value.raw);
 		}
 
 		public static Fix operator + (Fix lhs, Fix rhs) {
-			return new Fix(lhs._raw + rhs._raw);
+			return new Fix(lhs.raw + rhs.raw);
 		}
 
 		public static Fix operator - (Fix lhs, Fix rhs) {
-			return new Fix(lhs._raw - rhs._raw);
+			return new Fix(lhs.raw - rhs.raw);
 		}
 
 		public static Fix operator * (Fix lhs, Fix rhs) {
-			return new Fix((int)(((long)lhs._raw * (long)rhs._raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BITS));
+			return new Fix((int)(((long)lhs.raw * (long)rhs.raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BITS));
 		}
 
 		public static Fix operator / (Fix lhs, Fix rhs) {
-			return new Fix((int)((((long)lhs._raw << (FRACTIONAL_BITS + 1)) / (long)rhs._raw + 1) >> 1));
+			return new Fix((int)((((long)lhs.raw << (FRACTIONAL_BITS + 1)) / (long)rhs.raw + 1) >> 1));
 		}
 
 		public static Fix operator % (Fix lhs, Fix rhs) {
-			return new Fix(lhs.Raw % rhs.Raw);
+			return new Fix(lhs.raw % rhs.raw);
 		}
 
 		public static Fix operator << (Fix lhs, int rhs) {
-			return new Fix(lhs.Raw << rhs);
+			return new Fix(lhs.raw << rhs);
 		}
 
 		public static Fix operator >> (Fix lhs, int rhs) {
-			return new Fix(lhs.Raw >> rhs);
+			return new Fix(lhs.raw >> rhs);
 		}
 
-		int _raw;
+		public int raw;
 
-		public Fix (int raw) {
-			_raw = raw;
+		public Fix (int Raw) {
+			raw = Raw;
 		}
-
-		public int Raw { get { return _raw; } }
 
 		public override bool Equals (object obj) {
 			return (obj is Fix && ((Fix)obj) == this);
 		}
 
 		public override int GetHashCode () {
-			return Raw.GetHashCode();
+			return raw.GetHashCode();
 		}
 
 		public override string ToString () {
 			var sb = new StringBuilder();
-			if (_raw < 0)
+			if (raw < 0)
 				sb.Append(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NegativeSign);
 			int abs = (int)this;
 			abs = abs < 0 ? -abs : abs;
 			sb.Append(abs.ToString());
-			ulong fraction = (ulong)(_raw & FRACTION_MASK);
+			ulong fraction = (ulong)(raw & FRACTION_MASK);
 			if (fraction == 0)
 				return sb.ToString();
 
-			fraction = _raw < 0 ? FRACTION_RANGE - fraction : fraction;
+			fraction = raw < 0 ? FRACTION_RANGE - fraction : fraction;
 			fraction *= 1000000L;
 			fraction += FRACTION_RANGE >> 1;
 			fraction >>= FRACTIONAL_BITS;

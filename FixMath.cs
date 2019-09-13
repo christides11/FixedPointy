@@ -55,7 +55,7 @@ namespace FixedPointy {
 		}
 
 		public static Fix Abs (Fix value) {
-			return value.Raw < 0 ? new Fix(-value.Raw) : value;
+			return value.raw < 0 ? new Fix(-value.raw) : value;
 		}
 
 		public static Fix Sign (Fix value) {
@@ -68,22 +68,22 @@ namespace FixedPointy {
 		}
 
 		public static Fix Ceiling (Fix value) {
-			return new Fix((value.Raw + Fix.FRACTION_MASK) & Fix.INTEGER_MASK);
+			return new Fix((value.raw + Fix.FRACTION_MASK) & Fix.INTEGER_MASK);
 		}
 
 		public static Fix Floor (Fix value) {
-			return new Fix(value.Raw & Fix.INTEGER_MASK);
+			return new Fix(value.raw & Fix.INTEGER_MASK);
 		}
 
 		public static Fix Truncate (Fix value) {
 			if (value < 0)
-				return new Fix((value.Raw + Fix.FRACTION_RANGE) & Fix.INTEGER_MASK);
+				return new Fix((value.raw + Fix.FRACTION_RANGE) & Fix.INTEGER_MASK);
 			else
-				return new Fix(value.Raw & Fix.INTEGER_MASK);
+				return new Fix(value.raw & Fix.INTEGER_MASK);
 		}
 
 		public static Fix Round (Fix value) {
-			return new Fix((value.Raw + (Fix.FRACTION_RANGE >> 1)) & ~Fix.FRACTION_MASK);
+			return new Fix((value.raw + (Fix.FRACTION_RANGE >> 1)) & ~Fix.FRACTION_MASK);
 		}
 
 		public static Fix Min (Fix v1, Fix v2) {
@@ -108,12 +108,12 @@ namespace FixedPointy {
         }
 
 		public static Fix Sqrt (Fix value) {
-			if (value.Raw < 0)
+			if (value.raw < 0)
 				throw new ArgumentOutOfRangeException("value", "Value must be non-negative.");
-			if (value.Raw == 0)
+			if (value.raw == 0)
 				return 0;
 
-			return new Fix((int)(SqrtULong((ulong)value.Raw << (Fix.FRACTIONAL_BITS + 2)) + 1) >> 1);
+			return new Fix((int)(SqrtULong((ulong)value.raw << (Fix.FRACTIONAL_BITS + 2)) + 1) >> 1);
 		}
 
 		internal static uint SqrtULong (ulong N) {
@@ -127,11 +127,11 @@ namespace FixedPointy {
 		}
 
 		public static Fix Sin (Fix degrees) {
-			return CosRaw(degrees.Raw - (90 << Fix.FRACTIONAL_BITS));
+			return CosRaw(degrees.raw - (90 << Fix.FRACTIONAL_BITS));
 		}
 
 		public static Fix Cos (Fix degrees) {
-			return CosRaw(degrees.Raw);
+			return CosRaw(degrees.raw);
 		}
 
 		static Fix CosRaw (int raw) {
@@ -148,8 +148,8 @@ namespace FixedPointy {
 			return new Fix(
 				(int)(
 					(
-						(long)v1.Raw * ((1 << (Fix.FRACTIONAL_BITS - _quarterSineResPower)) - t)
-						+ (long)v2.Raw * t
+						(long)v1.raw * ((1 << (Fix.FRACTIONAL_BITS - _quarterSineResPower)) - t)
+						+ (long)v2.raw * t
 						+ (1 << (Fix.FRACTIONAL_BITS - _quarterSineResPower - 1))
 					)
 					>> (Fix.FRACTIONAL_BITS - _quarterSineResPower)
@@ -244,8 +244,8 @@ namespace FixedPointy {
 
 			int intPow;
 			Fix intFactor;
-			if ((exp.Raw & Fix.FRACTION_MASK) == 0) {
-				intPow = (int)((exp.Raw + (Fix.FRACTION_RANGE >> 1)) >> Fix.FRACTIONAL_BITS);
+			if ((exp.raw & Fix.FRACTION_MASK) == 0) {
+				intPow = (int)((exp.raw + (Fix.FRACTION_RANGE >> 1)) >> Fix.FRACTIONAL_BITS);
 				Fix t;
 				int p;
 				if (intPow < 0) {
@@ -269,11 +269,11 @@ namespace FixedPointy {
 
 			exp *= Log(b, 2);
 			b = 2;
-			intPow = (int)((exp.Raw + (Fix.FRACTION_RANGE >> 1)) >> Fix.FRACTIONAL_BITS);
+			intPow = (int)((exp.raw + (Fix.FRACTION_RANGE >> 1)) >> Fix.FRACTIONAL_BITS);
 			intFactor = intPow < 0 ? Fix.One >> -intPow : Fix.One << intPow;
 
 			long x = (
-				((exp.Raw - (intPow << Fix.FRACTIONAL_BITS)) * _ln2Const.Raw)
+				((exp.raw - (intPow << Fix.FRACTIONAL_BITS)) * _ln2Const.raw)
 				+ (Fix.FRACTION_RANGE >> 1)
 				) >> Fix.FRACTIONAL_BITS;
 			if (x == 0)
@@ -287,13 +287,13 @@ namespace FixedPointy {
 				xa *= x;
 				xa += (1L << (32 - 1));
 				xa >>= 32;
-				long p = xa * _invFactConsts[i].Raw;
+				long p = xa * _invFactConsts[i].raw;
 				p += (1L << (32 - 1));
 				p >>= 32;
 				fracFactor += p;
 			}
 
-			return new Fix((int)((((long)intFactor.Raw * fracFactor + (1L << (32 - 1))) >> 32) + intFactor.Raw));
+			return new Fix((int)((((long)intFactor.raw * fracFactor + (1L << (32 - 1))) >> 32) + intFactor.raw));
 		}
 
 		public static Fix Log (Fix value) {
@@ -319,7 +319,7 @@ namespace FixedPointy {
 			if (value <= 0)
 				throw new ArgumentOutOfRangeException("value", "Value must be positive.");
 
-			uint x = (uint)value.Raw;
+			uint x = (uint)value.raw;
 			uint b = 1U << (Fix.FRACTIONAL_BITS - 1);
 			uint y = 0;
 

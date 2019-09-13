@@ -101,7 +101,7 @@ namespace FixedPointy {
 		}
 
 		public Fix GetMagnitude () {
-			ulong N = (ulong)((long)_x.Raw * (long)_x.Raw + (long)_y.Raw * (long)_y.Raw + (long)_z.Raw * (long)_z.Raw);
+			ulong N = (ulong)((long)_x.raw * (long)_x.raw + (long)_y.raw * (long)_y.raw + (long)_z.raw * (long)_z.raw);
 
 			return new Fix((int)(FixMath.SqrtULong(N << 2) + 1) >> 1);
 		}
