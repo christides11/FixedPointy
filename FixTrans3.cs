@@ -20,166 +20,208 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 using System;
 
-namespace FixedPointy {
+namespace FixedPointy
+{
     [Serializable]
-	public struct FixTrans3 {
-		public static readonly FixTrans3 Identity = new FixTrans3(
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0
-		);
+    public struct FixTrans3
+    {
+        public static readonly FixTrans3 Identity = new FixTrans3(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0
+        );
 
-		public static FixTrans3 operator * (FixTrans3 lhs, FixTrans3 rhs) {
-			return new FixTrans3(
-				lhs._m11 * rhs._m11 + lhs._m12 * rhs._m21 + lhs._m13 * rhs._m31,
-				lhs._m11 * rhs._m12 + lhs._m12 * rhs._m22 + lhs._m13 * rhs._m32,
-				lhs._m11 * rhs._m13 + lhs._m12 * rhs._m23 + lhs._m13 * rhs._m33,
-				lhs._m11 * rhs._m14 + lhs._m12 * rhs._m24 + lhs._m13 * rhs._m34 + lhs._m14,
-				lhs._m21 * rhs._m11 + lhs._m22 * rhs._m21 + lhs._m23 * rhs._m31,
-				lhs._m21 * rhs._m12 + lhs._m22 * rhs._m22 + lhs._m23 * rhs._m32,
-				lhs._m21 * rhs._m13 + lhs._m22 * rhs._m23 + lhs._m23 * rhs._m33,
-				lhs._m21 * rhs._m14 + lhs._m22 * rhs._m24 + lhs._m23 * rhs._m34 + lhs._m24,
-				lhs._m31 * rhs._m11 + lhs._m32 * rhs._m21 + lhs._m33 * rhs._m31,
-				lhs._m31 * rhs._m12 + lhs._m32 * rhs._m22 + lhs._m33 * rhs._m32,
-				lhs._m31 * rhs._m13 + lhs._m32 * rhs._m23 + lhs._m33 * rhs._m33,
-				lhs._m31 * rhs._m14 + lhs._m32 * rhs._m24 + lhs._m33 * rhs._m34 + lhs._m34
-			);
-		}
+        public static FixTrans3 operator *(FixTrans3 lhs, FixTrans3 rhs)
+        {
+            FixTrans3 t = new FixTrans3();
+            t.m = lhs.m * rhs.m;
+            return t;
+        }
 
-		public static FixVec3 operator * (FixTrans3 lhs, FixVec3 rhs) {
-			return new FixVec3(
-				lhs._m11 * rhs.X + lhs._m12 * rhs.Y + lhs._m13 * rhs.Z + lhs._m14,
-				lhs._m21 * rhs.X + lhs._m22 * rhs.Y + lhs._m23 * rhs.Z + lhs._m24,
-				lhs._m31 * rhs.X + lhs._m32 * rhs.Y + lhs._m33 * rhs.Z + lhs._m34
-			);
-		}
+        public static FixVec3 operator *(FixTrans3 lhs, FixVec3 rhs)
+        {
+            return new FixVec3(
+                lhs.m[0, 0] * rhs.X + lhs.m[0, 1] * rhs.Y + lhs.m[0, 2] * rhs.Z + lhs.m[0, 3],
+                lhs.m[1, 0] * rhs.X + lhs.m[1, 1] * rhs.Y + lhs.m[1, 2] * rhs.Z + lhs.m[1, 3],
+                lhs.m[2, 0] * rhs.X + lhs.m[2, 1] * rhs.Y + lhs.m[2, 2] * rhs.Z + lhs.m[2, 3]
+            );
+        }
 
-		public static FixTrans3 MakeRotationZ (Fix degrees) {
-			Fix cos = FixMath.Cos(degrees);
-			Fix sin = FixMath.Sin(degrees);
-			return new FixTrans3(
-				cos, -sin, 0, 0,
-				sin, cos, 0, 0,
-				0, 0, 1, 0
-			);
-		}
+        public static FixTrans3 MakeRotationZ(Fix degrees)
+        {
+            Fix cos = FixMath.Cos(degrees);
+            Fix sin = FixMath.Sin(degrees);
+            return new FixTrans3(
+                cos, -sin, 0, 0,
+                sin, cos, 0, 0,
+                0, 0, 1, 0
+            );
+        }
 
-		public static FixTrans3 MakeRotationY (Fix degrees) {
-			Fix cos = FixMath.Cos(degrees);
-			Fix sin = FixMath.Sin(degrees);
-			return new FixTrans3(
-				cos, 0, sin, 0,
-				0, 1, 0, 0,
-				-sin, 0, cos, 0
-			);
-		}
+        public static FixTrans3 MakeRotationY(Fix degrees)
+        {
+            Fix cos = FixMath.Cos(degrees);
+            Fix sin = FixMath.Sin(degrees);
+            return new FixTrans3(
+                cos, 0, sin, 0,
+                0, 1, 0, 0,
+                -sin, 0, cos, 0
+            );
+        }
 
-		public static FixTrans3 MakeRotationX (Fix degrees) {
-			Fix cos = FixMath.Cos(degrees);
-			Fix sin = FixMath.Sin(degrees);
-			return new FixTrans3(
-				1, 0, 0, 0,
-				0, cos, -sin, 0,
-				0, sin, cos, 0
-			);
-		}
+        public static FixTrans3 MakeRotationX(Fix degrees)
+        {
+            Fix cos = FixMath.Cos(degrees);
+            Fix sin = FixMath.Sin(degrees);
+            return new FixTrans3(
+                1, 0, 0, 0,
+                0, cos, -sin, 0,
+                0, sin, cos, 0
+            );
+        }
 
-		public static FixTrans3 MakeRotation (FixVec3 degrees) {
-			return MakeRotationX(degrees.X)
-				.RotateY(degrees.Y)
-				.RotateZ(degrees.Z);
-		}
+        public static FixTrans3 MakeRotation(FixVec3 degrees)
+        {
+            return MakeRotationX(degrees.X)
+                .RotateY(degrees.Y)
+                .RotateZ(degrees.Z);
+        }
 
-		public static FixTrans3 MakeScale (FixVec3 scale) {
-			return new FixTrans3(
-				scale.X, 0, 0, 0,
-				0, scale.Y, 0, 0,
-				0, 0, scale.Z, 0
-			);
-		}
+        public static FixTrans3 MakeScale(FixVec3 scale)
+        {
+            return new FixTrans3(
+                scale.X, 0, 0, 0,
+                0, scale.Y, 0, 0,
+                0, 0, scale.Z, 0
+            );
+        }
 
-		public static FixTrans3 MakeTranslation (FixVec3 delta) {
-			return new FixTrans3(
-				1, 0, 0, delta.X,
-				0, 1, 0, delta.Y,
-				0, 0, 1, delta.Z
-			);
-		}
+        public static FixTrans3 MakeTranslation(FixVec3 delta)
+        {
+            return new FixTrans3(
+                1, 0, 0, delta.X,
+                0, 1, 0, delta.Y,
+                0, 0, 1, delta.Z
+            );
+        }
 
-		Fix _m11, _m21, _m31, _m12, _m22, _m32, _m13, _m23, _m33, _m14, _m24, _m34;
 
-		public FixTrans3 (
-			Fix m11, Fix m12, Fix m13, Fix m14,
-			Fix m21, Fix m22, Fix m23, Fix m24,
-			Fix m31, Fix m32, Fix m33, Fix m34
-		) {
-			_m11 = m11; _m12 = m12; _m13 = m13; _m14 = m14;
-			_m21 = m21; _m22 = m22; _m23 = m23; _m24 = m24;
-			_m31 = m31; _m32 = m32; _m33 = m33; _m34 = m34;
-		}
+        public Matrix4fix m;
 
-		public FixTrans3 (FixVec3 position, FixVec3 scale, FixVec3 rotation) {
-			this = MakeRotationX(rotation.X)
-				.RotateY(rotation.Y)
-				.RotateZ(rotation.Z)
-				.Scale(scale)
-				.Translate(position);
-		}
+        public FixTrans3(
+            Fix m00, Fix m01, Fix m02, Fix m03,
+            Fix m10, Fix m11, Fix m12, Fix m13,
+            Fix m20, Fix m21, Fix m22, Fix m23
+        )
+        {
+            m = new Matrix4fix();
+            m.m00 = m00;
+            m.m01 = m01;
+            m.m02 = m02;
+            m.m03 = m03;
+            m.m10 = m10;
+            m.m11 = m11;
+            m.m12 = m12;
+            m.m13 = m13;
+            m.m20 = m20;
+            m.m21 = m21;
+            m.m22 = m22;
+            m.m23 = m23;
+        }
 
-		public Fix M11 { get { return _m11; } }
-		public Fix M12 { get { return _m12; } }
-		public Fix M13 { get { return _m13; } }
-		public Fix M14 { get { return _m14; } }
-		public Fix M21 { get { return _m21; } }
-		public Fix M22 { get { return _m22; } }
-		public Fix M23 { get { return _m23; } }
-		public Fix M24 { get { return _m24; } }
-		public Fix M31 { get { return _m31; } }
-		public Fix M32 { get { return _m32; } }
-		public Fix M33 { get { return _m33; } }
-		public Fix M34 { get { return _m34; } }
+        public FixTrans3(FixVec3 position, FixVec3 rotation, FixVec3 scale)
+        {
+            this = MakeRotationX(rotation.X)
+                .RotateY(rotation.Y)
+                .RotateZ(rotation.Z)
+                .Scale(scale)
+                .Translate(position);
+        }
 
-		public FixTrans3 RotateZ (Fix degrees) {
-			return MakeRotationZ(degrees) * this;
-		}
+        public FixTrans3(Matrix4fix m)
+        {
+            this.m = m;
+        }
 
-		public FixTrans3 RotateY (Fix degrees) {
-			return MakeRotationY(degrees) * this;
-		}
+        public FixTrans3 RotateZ(Fix degrees)
+        {
+            return MakeRotationZ(degrees) * this;
+        }
 
-		public FixTrans3 RotateX (Fix degrees) {
-			return MakeRotationX(degrees) * this;
-		}
+        public FixTrans3 RotateY(Fix degrees)
+        {
+            return MakeRotationY(degrees) * this;
+        }
 
-		public FixTrans3 Rotate (FixVec3 degrees) {
-			return MakeRotation(degrees);
-		}
+        public FixTrans3 RotateX(Fix degrees)
+        {
+            return MakeRotationX(degrees) * this;
+        }
 
-		public FixTrans3 Scale (FixVec3 scale) {
-			return new FixTrans3(
-				_m11 * scale.X, _m12 * scale.X, _m13 * scale.X, _m14 * scale.X,
-				_m21 * scale.Y, _m22 * scale.Y, _m23 * scale.Y, _m24 * scale.Y,
-				_m31 * scale.Z, _m32 * scale.Z, _m33 * scale.Z, _m34 * scale.Z
-			);
-		}
+        public FixTrans3 Rotate(FixVec3 degrees)
+        {
+            return MakeRotation(degrees);
+        }
 
-		public FixTrans3 Translate (FixVec3 delta) {
-			return new FixTrans3(
-				_m11, _m12, _m13, _m14 + delta.X,
-				_m21, _m22, _m23, _m24 + delta.Y,
-				_m31, _m32, _m33, _m34 + delta.Z
-			);
-		}
+        public FixTrans3 Scale(FixVec3 scale)
+        {
+            return new FixTrans3(
+                m[0, 0] * scale.X, m[0, 1] * scale.X, m[0, 2] * scale.X, m[0, 3] * scale.X,
+                m[1, 0] * scale.Y, m[1, 1] * scale.Y, m[1, 2] * scale.Y, m[1, 3] * scale.Y,
+                m[2, 0] * scale.Z, m[2, 1] * scale.Z, m[2, 2] * scale.Z, m[2, 3] * scale.Z
+            );
+        }
 
-		public FixVec3 Apply (FixVec3 vec) {
-			return this * vec;
-		}
+        public FixTrans3 Translate(FixVec3 delta)
+        {
+            FixTrans3 ft = new FixTrans3(m);
+            ft.m[0, 3] += delta.X;
+            ft.m[1, 3] += delta.Y;
+            ft.m[2, 3] += delta.Z;
+            return ft;
+        }
 
-		public override string ToString () {
-			return string.Format ("[[{0}, {1}, {2}], [{3}, {4}, {5}]]", _m11, _m12, _m13, _m21, _m22, _m23);
-		}
-	}
+        public FixVec3 Apply(FixVec3 vec)
+        {
+            return this * vec;
+        }
+
+        public FixVec3 Position()
+        {
+            return new FixVec3(m[0, 3], m[1, 3], m[2, 3]);
+        }
+
+        public FixVec3 Scale()
+        {
+            return new FixVec3(
+                new FixVec3(m[0, 0], m[1, 0], m[2, 0]).GetMagnitude(),
+                new FixVec3(m[0, 1], m[1, 1], m[2, 1]).GetMagnitude(),
+                new FixVec3(m[0, 2], m[1, 2], m[2, 2]).GetMagnitude());
+        }
+
+        //https://gamedev.stackexchange.com/questions/50963/how-to-extract-euler-angles-from-transformation-matrix
+        public FixVec3 EulerAngle()
+        {
+            FixVec3 ea = new FixVec3();
+
+            ea._x = FixMath.Atan2(-m[1, 2], m[2, 2]);
+
+            Fix cosYangle = FixMath.Sqrt(FixMath.Pow(m[0, 0], 2) + FixMath.Pow(m[0, 1], 2));
+            ea._y = FixMath.Atan2(m[0, 2], cosYangle);
+
+            Fix sinXangle = FixMath.Sin(ea._x);
+            Fix cosXangle = FixMath.Cos(ea._x);
+            ea._z = FixMath.Atan2((cosXangle * m[1, 0]) + (sinXangle * m[2, 0]), (cosXangle * m[1, 1]) + (sinXangle * m[2, 1]));
+            return ea;
+        }
+
+        public override string ToString()
+        {
+            return $"Position: [{Position().ToString()}]\n"
+                + $"Rotation: [{EulerAngle().ToString()}]\n"
+                + $"Scale: {Scale().ToString()}\n";
+        }
+    }
 }
