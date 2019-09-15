@@ -84,6 +84,8 @@
     <Compile Include="FixTrans2.cs" />
     <Compile Include="FixVec3.cs" />
     <Compile Include="FixTrans3.cs" />
+    <Compile Include="FixVec4.cs" />
+    <Compile Include="Matrix4fix.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
