@@ -1,6 +1,7 @@
 FixedPointy
 ===========
-A simple fixed-point math library for C#.
+A fork of FixedPointy primarily aimed at adding features for game development usage.
+If you can help the library in any form, please make a pull request.
 
 All standard math functions are implemented, with the exception of hyperbolic trig.
 Precision can be configured by adjusting the FractionalBits constant in Fix.cs,
