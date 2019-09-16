@@ -47,27 +47,31 @@ namespace FixedPointy
             return x.GetHashCode() ^ y.GetHashCode() << 2 ^ z.GetHashCode() >> 2 ^ w.GetHashCode() >> 1;
         }
 
-        //https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-quaternions-and-get-the-same-euler-angles-back-fr
+        //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         public static FixVec3 ToEuler(FixQuaternion q)
         {
             FixVec3 result;
 
-            Fix t0 = 2 * (q.w * q.x + q.y * q.z);
-            Fix t1 = 1 - 2 * (q.x*q.x+q.y*q.y);
+            Fix t0 = 2 * (q.w * q.z + q.x * q.y);
+            Fix t1 = Fix.One - (2 * (q.y * q.y + q.z * q.z));
             result._z = FixMath.Atan2(t0, t1);
 
             Fix t2 = 2 * (q.w * q.y - q.z * q.x);
-            if(t2 > Fix.One)
+            if (t2 >= Fix.One)
             {
-                t2 = 1;
-            }else if(t2 < -Fix.One)
-            {
-                t2 = -1;
+                result._y = FixMath.PI / 2;
             }
-            result._y = FixMath.Asin(t2);
+            else if (t2 <= -Fix.One)
+            {
+                result._y = -(FixMath.PI / 2);
+            }
+            else
+            {
+                result._y = FixMath.Asin(t2);
+            }
 
-            Fix t3 = 2 * (q.w * q.z + q.x * q.y);
-            Fix t4 = 1 - 2 * (q.y * q.y + q.z * q.z);
+            Fix t3 = 2 * (q.w * q.x + q.y * q.z);
+            Fix t4 = Fix.One - (2 * (q.x * q.x + q.y * q.y));
             result._x = FixMath.Atan2(t3, t4);
             return result;
         }
@@ -80,23 +84,23 @@ namespace FixedPointy
             this.w = w;
         }
 
-        //https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-quaternions-and-get-the-same-euler-angles-back-fr
+        //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
         public FixQuaternion(FixVec3 e)
         {
-            x = FixMath.Sin(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Cos(e._x/2) - FixMath.Cos(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Sin(e._x/2);
-            y = FixMath.Cos(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Cos(e._x/2) + FixMath.Sin(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Sin(e._x/2);
-            z = FixMath.Cos(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Sin(e._x/2) - FixMath.Sin(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Cos(e._x/2);
-            w = FixMath.Cos(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Cos(e._x/2) + FixMath.Sin(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Sin(e._x/2);
+            w = FixMath.Cos(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Cos(e._x / 2) + FixMath.Sin(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Sin(e._x / 2);
+            x = FixMath.Cos(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Sin(e._x / 2) - FixMath.Sin(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Cos(e._x / 2);
+            y = FixMath.Sin(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Sin(e._x / 2) + FixMath.Cos(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Cos(e._x / 2);
+            z = FixMath.Sin(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Cos(e._x / 2) - FixMath.Cos(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Sin(e._x / 2);
         }
 
         public Fix Magnitude()
         {
-            return FixMath.Sqrt(x*x+y*y+z*z+w*w);
+            return FixMath.Sqrt(x * x + y * y + z * z + w * w);
         }
 
         public Fix sqrMagnitude()
         {
-            return x*x + y*y + z*z + w*w;
+            return x * x + y * y + z * z + w * w;
         }
 
         public FixQuaternion Normalize()

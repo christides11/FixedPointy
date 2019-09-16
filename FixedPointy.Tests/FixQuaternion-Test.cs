@@ -12,6 +12,7 @@ namespace FixedPointy.FixedPointy.Tests
         [TestCase(100, 1, 1)]
         [TestCase(1, 100, 1)]
         [TestCase(1, 1, 100)]
+        [TestCase(100, 100, 100)]
         public void EulerForwardBack(int x, int y, int z)
         {
             FixQuaternion quat = new FixQuaternion(new FixVec3(x, y, z));
