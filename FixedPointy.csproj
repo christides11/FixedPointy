@@ -77,9 +77,12 @@
     <Compile Include="FixedPointy.Tests\Fix-FloatTest.cs" />
     <Compile Include="FixedPointy.Tests\Fix-IntTest.cs" />
     <Compile Include="FixedPointy.Tests\FixMath-Test.cs" />
+    <Compile Include="FixedPointy.Tests\FixQuaternion-Test.cs" />
+    <Compile Include="FixedPointy.Tests\FixTrans3-Test.cs" />
     <Compile Include="FixedPointy.Tests\FixVec2-MagnitudeTest.cs" />
     <Compile Include="FixMath.cs" />
     <Compile Include="FixMathConsts.cs" />
+    <Compile Include="FixQuaternion.cs" />
     <Compile Include="FixVec2.cs" />
     <Compile Include="FixTrans2.cs" />
     <Compile Include="FixVec3.cs" />

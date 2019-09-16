@@ -37,35 +37,38 @@ namespace FixedPointy
             return lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z || lhs.w != rhs.w;
         }
 
-        //https://answers.unity.com/questions/402280/how-to-decompose-a-trs-matrix.html
+        public override bool Equals(object obj)
+        {
+            return (obj is FixQuaternion && ((FixQuaternion)obj) == this);
+        }
+
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ y.GetHashCode() << 2 ^ z.GetHashCode() >> 2 ^ w.GetHashCode() >> 1;
+        }
+
+        //https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-quaternions-and-get-the-same-euler-angles-back-fr
         public static FixVec3 ToEuler(FixQuaternion q)
         {
             FixVec3 result;
 
-            Fix test = q.x * q.y + q.z * q.w;
+            Fix t0 = 2 * (q.w * q.x + q.y * q.z);
+            Fix t1 = 1 - 2 * (q.x*q.x+q.y*q.y);
+            result._z = FixMath.Atan2(t0, t1);
 
-            Fix rad2deg = 360 / (FixMath.PI * 2);
+            Fix t2 = 2 * (q.w * q.y - q.z * q.x);
+            if(t2 > Fix.One)
+            {
+                t2 = 1;
+            }else if(t2 < -Fix.One)
+            {
+                t2 = -1;
+            }
+            result._y = FixMath.Asin(t2);
 
-            if(test > (Fix.One / 2))
-            {
-                result._x = 0;
-                result._y = 2 * FixMath.Atan2(q.x, q.w);
-                result._z = FixMath.PI / 2;
-            }else if(test < (Fix.One / 2))
-            {
-                result._x = 0;
-                result._y = -2 * FixMath.Atan2(q.x, q.w);
-                result._z = -FixMath.PI / 2;
-            }
-            else
-            {
-                result._x = rad2deg * FixMath.Atan2(2 * q.x * q.w - 2 * q.y * q.z, 1 - 2 * q.x * q.x - 2 * q.z * q.z);
-                result._y = rad2deg * FixMath.Atan2(2 * q.y * q.w - 2 * q.x * q.z, 1 - 2 * q.y * q.y - 2 * q.z * q.z);
-                result._z = rad2deg * FixMath.Asin(2 * q.x * q.y + 2 * q.z * q.w);
-                if (result._x < 0) result._x += 360;
-                if (result._y < 0) result._y += 360;
-                if (result._z < 0) result._z += 360;
-            }
+            Fix t3 = 2 * (q.w * q.z + q.x * q.y);
+            Fix t4 = 1 - 2 * (q.y * q.y + q.z * q.z);
+            result._x = FixMath.Atan2(t3, t4);
             return result;
         }
 
@@ -77,14 +80,23 @@ namespace FixedPointy
             this.w = w;
         }
 
+        //https://math.stackexchange.com/questions/2975109/how-to-convert-euler-angles-to-quaternions-and-get-the-same-euler-angles-back-fr
+        public FixQuaternion(FixVec3 e)
+        {
+            x = FixMath.Sin(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Cos(e._x/2) - FixMath.Cos(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Sin(e._x/2);
+            y = FixMath.Cos(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Cos(e._x/2) + FixMath.Sin(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Sin(e._x/2);
+            z = FixMath.Cos(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Sin(e._x/2) - FixMath.Sin(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Cos(e._x/2);
+            w = FixMath.Cos(e._z/2) * FixMath.Cos(e._y/2) * FixMath.Cos(e._x/2) + FixMath.Sin(e._z/2) * FixMath.Sin(e._y/2) * FixMath.Sin(e._x/2);
+        }
+
         public Fix Magnitude()
         {
-            return Fix.One;
+            return FixMath.Sqrt(x*x+y*y+z*z+w*w);
         }
 
         public Fix sqrMagnitude()
         {
-            return (x*x + y*y + z*z + w*w);
+            return x*x + y*y + z*z + w*w;
         }
 
         public FixQuaternion Normalize()

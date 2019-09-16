@@ -27,12 +27,6 @@ namespace FixedPointy
     [Serializable]
     public struct FixTrans3
     {
-        public static readonly FixTrans3 Identity = new FixTrans3(
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0
-        );
-
         public static FixTrans3 operator *(FixTrans3 lhs, FixTrans3 rhs)
         {
             FixTrans3 t = new FixTrans3();
@@ -196,9 +190,9 @@ namespace FixedPointy
         public FixVec3 Scale()
         {
             return new FixVec3(
-                new FixVec3(m[0, 0], m[1, 0], m[2, 0]).GetMagnitude(),
-                new FixVec3(m[0, 1], m[1, 1], m[2, 1]).GetMagnitude(),
-                new FixVec3(m[0, 2], m[1, 2], m[2, 2]).GetMagnitude());
+                new FixVec3(m[0, 0], m[0, 1], m[0, 2]).GetMagnitude(),
+                new FixVec3(m[1, 0], m[1, 1], m[1, 2]).GetMagnitude(),
+                new FixVec3(m[2, 0], m[2, 1], m[2, 2]).GetMagnitude());
         }
 
         //https://gamedev.stackexchange.com/questions/50963/how-to-extract-euler-angles-from-transformation-matrix

@@ -32,11 +32,11 @@ namespace FixedPointy
         public Fix this[int row, int column] {
             get
             {
-                return this[row + column * 4];
+                return this[row * 4 + column];
             }
             set
             {
-                this[row + column * 4] = value;
+                this[row * 4 + column] = value;
             }
         }
 

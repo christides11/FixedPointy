@@ -7,5 +7,8 @@ namespace FixedPointy.FixedPointy.Tests
     class FixMath_Test
     {
 
+        public void ConvertToFromFix(int val)
+        {
+        }
     }
 }
