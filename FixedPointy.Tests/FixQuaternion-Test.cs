@@ -6,7 +6,7 @@ namespace FixedPointy.FixedPointy.Tests
     class FixQuaternion_Test
     {
         // You are not guarenteed to get the same euler back, but you should get the same
-        // QUaternion when you convert it back.
+        // Quaternion when you convert it back.
         [TestCase(0, 0, 0)]
         [TestCase(1, 1, 1)]
         [TestCase(100, 1, 1)]

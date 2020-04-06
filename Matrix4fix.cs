@@ -2,27 +2,110 @@
 
 namespace FixedPointy
 {
+    /// <summary>
+    /// Represents a 4x4 matrix.
+    /// </summary>
     public struct Matrix4fix
     {
-        public Fix m00, m01, m02, m03;
-        public Fix m10, m11, m12, m13;
-        public Fix m20, m21, m22, m23;
-        public Fix m30, m31, m32, m33;
+        // The first element of the first row.
+        public Fix m00;
+        // The second element of the first row.
+        public Fix m01;
+        // The third element of the first row.
+        public Fix m02;
+        // The fourth element of the first row.
+        public Fix m03;
+        // The first element of the second row.
+        public Fix m10;
+        // The second element of the second row.
+        public Fix m11;
+        // The third element of the second row.
+        public Fix m12;
+        // The fourth element of the second row.
+        public Fix m13;
+        // The first element of the third row.
+        public Fix m20;
+        // The second element of the third row.
+        public Fix m21;
+        // The third element of the third row.
+        public Fix m22;
+        // The fourth element of the third row.
+        public Fix m23;
+        // The first element of the fourth row.
+        public Fix m30;
+        // The second element of the fourth row.
+        public Fix m31;
+        // The third element of the fourth row.
+        public Fix m32;
+        // The fourth element of the fourth row.
+        public Fix m33;
 
+        private static readonly Matrix4fix _identity = new Matrix4fix
+        (
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
+        );
+
+        /// <summary>
+        /// Returns the multiplicative identity matrix.
+        /// </summary>
+        public static Matrix4fix Identity
+        {
+            get { return _identity; }
+        }
+
+        /// <summary>
+        /// Constructs a 4x4 matrix from the given components.
+        /// </summary>
+        public Matrix4fix(Fix m00, Fix m01, Fix m02, Fix m03,
+                         Fix m10, Fix m11, Fix m12, Fix m13,
+                         Fix m20, Fix m21, Fix m22, Fix m23,
+                         Fix m30, Fix m31, Fix m32, Fix m33)
+        {
+            this.m00 = m00;
+            this.m01 = m01;
+            this.m02 = m02;
+            this.m03 = m03;
+            this.m10 = m10;
+            this.m11 = m11;
+            this.m12 = m12;
+            this.m13 = m13;
+            this.m20 = m20;
+            this.m21 = m21;
+            this.m22 = m22;
+            this.m23 = m23;
+            this.m30 = m30;
+            this.m31 = m31;
+            this.m32 = m32;
+            this.m33 = m33;
+        }
+
+        /// <summary>
+        /// Creates a 4x4 matrix from the given rows.
+        /// </summary>
+        /// <param name="row0">00-03.</param>
+        /// <param name="row1">10-13.</param>
+        /// <param name="row2">20-23.</param>
+        /// <param name="row3">30-33.</param>
         public Matrix4fix(FixVec4 row0, FixVec4 row1, FixVec4 row2, FixVec4 row3)
         {
             m00 = row0.x;
             m01 = row0.y;
             m02 = row0.z;
             m03 = row0.w;
+
             m10 = row1.x;
             m11 = row1.y;
             m12 = row1.z;
             m13 = row1.w;
+
             m20 = row2.x;
             m21 = row2.y;
             m22 = row2.z;
             m23 = row2.w;
+
             m30 = row3.x;
             m31 = row3.y;
             m32 = row3.z;
@@ -140,15 +223,6 @@ namespace FixedPointy
             }
         }
 
-        public static Matrix4fix identity()
-        {
-            return new Matrix4fix(
-                new FixVec4(1, 0, 0, 0),
-                new FixVec4(0, 1, 0, 0),
-                new FixVec4(0, 0, 1, 0),
-                new FixVec4(0, 0, 0, 1));
-        }
-
         public static Matrix4fix operator *(Matrix4fix lhs, Matrix4fix rhs)
         {
             Matrix4fix mf = new Matrix4fix();
@@ -158,10 +232,10 @@ namespace FixedPointy
                 for (int j = 0; j < 4; j++)
                 {
                     mf[i, j] = (
-                        lhs[i,0] * rhs[0, j] +
-                        lhs[i,1] * rhs[1, j] +
-                        lhs[i,2] * rhs[2, j] +
-                        lhs[i,3] * rhs[3, j]);
+                        lhs[j,0] * rhs[0, i] +
+                        lhs[j,1] * rhs[1, i] +
+                        lhs[j,2] * rhs[2, i] +
+                        lhs[j,3] * rhs[3, i]);
                 }
             }
 

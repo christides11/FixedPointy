@@ -191,8 +191,8 @@ namespace FixedPointy {
 		}
 
 		public static Fix Atan2 (Fix y, Fix x) {
-			if (x == 0 && y == 0)
-				throw new ArgumentOutOfRangeException("y and x cannot both be 0.");
+            if (x == 0 && y == 0)
+                return 0;
 
 			Fix angle = 0;
 			Fix xNew, yNew;

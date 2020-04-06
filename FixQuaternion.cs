@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace FixedPointy
+﻿namespace FixedPointy
 {
+    /// <summary>
+    /// A Quaternion is commonly used to represent 3D rotations.
+    /// </summary>
     public struct FixQuaternion
     {
         public Fix x;
@@ -11,10 +12,14 @@ namespace FixedPointy
 
         public static FixQuaternion operator *(FixQuaternion lhs, FixQuaternion rhs)
         {
-            Fix x = lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y;
-            Fix y = lhs.w * rhs.y + lhs.y * rhs.w + lhs.z * rhs.x - lhs.x * rhs.z;
-            Fix z = lhs.w * rhs.z + lhs.z * rhs.w + lhs.x * rhs.y - lhs.y * rhs.x;
-            Fix w = lhs.w * rhs.w - lhs.x * rhs.x + lhs.y * rhs.y - lhs.z * rhs.z;
+            Fix x = lhs.w * rhs.x + lhs.x * rhs.w 
+                + lhs.y * rhs.z - lhs.z * rhs.y;
+            Fix y = lhs.w * rhs.y + lhs.y * rhs.w 
+                + lhs.z * rhs.x - lhs.x * rhs.z;
+            Fix z = lhs.w * rhs.z + lhs.z * rhs.w 
+                + lhs.x * rhs.y - lhs.y * rhs.x;
+            Fix w = lhs.w * rhs.w - lhs.x * rhs.x 
+                + lhs.y * rhs.y - lhs.z * rhs.z;
             return new FixQuaternion(x, y, z, w);
         }
 
@@ -29,12 +34,18 @@ namespace FixedPointy
 
         public static bool operator ==(FixQuaternion lhs, FixQuaternion rhs)
         {
-            return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
+            return lhs.x == rhs.x 
+                && lhs.y == rhs.y 
+                && lhs.z == rhs.z 
+                && lhs.w == rhs.w;
         }
 
         public static bool operator !=(FixQuaternion lhs, FixQuaternion rhs)
         {
-            return lhs.x != rhs.x || lhs.y != rhs.y || lhs.z != rhs.z || lhs.w != rhs.w;
+            return lhs.x != rhs.x 
+                || lhs.y != rhs.y 
+                || lhs.z != rhs.z 
+                || lhs.w != rhs.w;
         }
 
         public override bool Equals(object obj)
@@ -47,16 +58,21 @@ namespace FixedPointy
             return x.GetHashCode() ^ y.GetHashCode() << 2 ^ z.GetHashCode() >> 2 ^ w.GetHashCode() >> 1;
         }
 
-        //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-        public static FixVec3 ToEuler(FixQuaternion q)
+        /// <summary>
+        /// Converts a quaternion to a euler angle.
+        /// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+        /// </summary>
+        /// <param name="quaternion">The quaternion to convert from.</param>
+        /// <returns>An euler angle.</returns>
+        public static FixVec3 ToEuler(FixQuaternion quaternion)
         {
             FixVec3 result;
 
-            Fix t0 = 2 * (q.w * q.z + q.x * q.y);
-            Fix t1 = Fix.One - (2 * (q.y * q.y + q.z * q.z));
+            Fix t0 = 2 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y);
+            Fix t1 = Fix.One - (2 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
             result._z = FixMath.Atan2(t0, t1);
 
-            Fix t2 = 2 * (q.w * q.y - q.z * q.x);
+            Fix t2 = 2 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
             if (t2 >= Fix.One)
             {
                 result._y = FixMath.PI / 2;
@@ -70,12 +86,19 @@ namespace FixedPointy
                 result._y = FixMath.Asin(t2);
             }
 
-            Fix t3 = 2 * (q.w * q.x + q.y * q.z);
-            Fix t4 = Fix.One - (2 * (q.x * q.x + q.y * q.y));
+            Fix t3 = 2 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z);
+            Fix t4 = Fix.One - (2 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y));
             result._x = FixMath.Atan2(t3, t4);
             return result;
         }
 
+        /// <summary>
+        /// Constructs a quaternion from the given x,y,z,w parameters.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="w"></param>
         public FixQuaternion(Fix x, Fix y, Fix z, Fix w)
         {
             this.x = x;
@@ -84,25 +107,45 @@ namespace FixedPointy
             this.w = w;
         }
 
-        //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-        public FixQuaternion(FixVec3 e)
+        /// <summary>
+        /// Constructs a quaternion from a vector3.
+        /// https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+        /// </summary>
+        /// <param name="vector">The vector3 being converted.</param>
+        public FixQuaternion(FixVec3 vector)
         {
-            w = FixMath.Cos(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Cos(e._x / 2) + FixMath.Sin(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Sin(e._x / 2);
-            x = FixMath.Cos(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Sin(e._x / 2) - FixMath.Sin(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Cos(e._x / 2);
-            y = FixMath.Sin(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Sin(e._x / 2) + FixMath.Cos(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Cos(e._x / 2);
-            z = FixMath.Sin(e._z / 2) * FixMath.Cos(e._y / 2) * FixMath.Cos(e._x / 2) - FixMath.Cos(e._z / 2) * FixMath.Sin(e._y / 2) * FixMath.Sin(e._x / 2);
+            w = FixMath.Cos(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Cos(vector._x / 2) 
+              + FixMath.Sin(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Sin(vector._x / 2);
+            x = FixMath.Cos(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Sin(vector._x / 2) 
+              - FixMath.Sin(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Cos(vector._x / 2);
+            y = FixMath.Sin(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Sin(vector._x / 2) 
+              + FixMath.Cos(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Cos(vector._x / 2);
+            z = FixMath.Sin(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Cos(vector._x / 2) 
+              - FixMath.Cos(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Sin(vector._x / 2);
         }
 
+        /// <summary>
+        /// Returns the length of this quaternion.
+        /// </summary>
+        /// <returns>The length.</returns>
         public Fix Magnitude()
         {
             return FixMath.Sqrt(x * x + y * y + z * z + w * w);
         }
 
+        /// <summary>
+        /// Return the squared length of this quaternion.
+        /// </summary>
+        /// <returns>The squared length.</returns>
         public Fix sqrMagnitude()
         {
             return x * x + y * y + z * z + w * w;
         }
 
+        /// <summary>
+        /// Make this quaternion have a magnitude of 1.
+        /// </summary>
+        /// <returns>This quaternion.</returns>
         public FixQuaternion Normalize()
         {
             Fix magnitude = Magnitude();
@@ -112,11 +155,6 @@ namespace FixedPointy
             z /= magnitude;
             w /= magnitude;
             return this;
-        }
-
-        public FixQuaternion Conjugate()
-        {
-            return new FixQuaternion(-x, -y, -z, w);
         }
     }
 }
