@@ -40,21 +40,16 @@ namespace FixedPointy
         // The fourth element of the fourth row.
         public Fix m33;
 
-        private static readonly FixMatrix4x4 _identity = new FixMatrix4x4
+        /// <summary>
+        /// Returns the multiplicative identity matrix.
+        /// </summary>
+        public static FixMatrix4x4 Identity { get; } = new FixMatrix4x4
         (
             1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
             0, 0, 0, 1
         );
-
-        /// <summary>
-        /// Returns the multiplicative identity matrix.
-        /// </summary>
-        public static FixMatrix4x4 Identity
-        {
-            get { return _identity; }
-        }
 
         /// <summary>
         /// Constructs a 4x4 matrix from the given components.
