@@ -33,12 +33,12 @@ namespace FixedPointy.FixedPointy.Tests
 
             FixMatrix4x4 result = a * b;
 
-            Fix expectedm00 = (a.m00 * b.m00) + (a.m01 * b.m10)
-                + (a.m02 * b.m20) + (a.m03 * b.m30);
-            Fix expectedm01 = (a.m00 * b.m01) + (a.m01 * b.m11)
-                + (a.m02 * b.m21) + (a.m03 * b.m31);
+            Fix expectedm00 = (a.m11 * b.m11) + (a.m12 * b.m21)
+                + (a.m13 * b.m31) + (a.m14 * b.m41);
+            Fix expectedm01 = (a.m11 * b.m12) + (a.m12 * b.m22)
+                + (a.m13 * b.m32) + (a.m14 * b.m42);
 
-            Assert.AreEqual(expectedm00, result.m00);
+            Assert.AreEqual(expectedm00, result.m11);
         }
     }
 }
