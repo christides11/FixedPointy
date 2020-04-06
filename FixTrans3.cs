@@ -102,7 +102,7 @@ namespace FixedPointy
         }
 
 
-        public Matrix4fix m;
+        public FixMatrix4x4 m;
 
         public FixTrans3(
             Fix m00, Fix m01, Fix m02, Fix m03,
@@ -110,7 +110,7 @@ namespace FixedPointy
             Fix m20, Fix m21, Fix m22, Fix m23
         )
         {
-            m = new Matrix4fix();
+            m = new FixMatrix4x4();
             m.m00 = m00;
             m.m01 = m01;
             m.m02 = m02;
@@ -134,7 +134,7 @@ namespace FixedPointy
                 .Translate(position);
         }
 
-        public FixTrans3(Matrix4fix m)
+        public FixTrans3(FixMatrix4x4 m)
         {
             this.m = m;
         }

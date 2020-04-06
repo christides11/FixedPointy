@@ -5,7 +5,7 @@ namespace FixedPointy
     /// <summary>
     /// Represents a 4x4 matrix.
     /// </summary>
-    public struct Matrix4fix
+    public struct FixMatrix4x4
     {
         // The first element of the first row.
         public Fix m00;
@@ -40,7 +40,7 @@ namespace FixedPointy
         // The fourth element of the fourth row.
         public Fix m33;
 
-        private static readonly Matrix4fix _identity = new Matrix4fix
+        private static readonly FixMatrix4x4 _identity = new FixMatrix4x4
         (
             1, 0, 0, 0,
             0, 1, 0, 0,
@@ -51,7 +51,7 @@ namespace FixedPointy
         /// <summary>
         /// Returns the multiplicative identity matrix.
         /// </summary>
-        public static Matrix4fix Identity
+        public static FixMatrix4x4 Identity
         {
             get { return _identity; }
         }
@@ -59,7 +59,7 @@ namespace FixedPointy
         /// <summary>
         /// Constructs a 4x4 matrix from the given components.
         /// </summary>
-        public Matrix4fix(Fix m00, Fix m01, Fix m02, Fix m03,
+        public FixMatrix4x4(Fix m00, Fix m01, Fix m02, Fix m03,
                          Fix m10, Fix m11, Fix m12, Fix m13,
                          Fix m20, Fix m21, Fix m22, Fix m23,
                          Fix m30, Fix m31, Fix m32, Fix m33)
@@ -89,7 +89,7 @@ namespace FixedPointy
         /// <param name="row1">10-13.</param>
         /// <param name="row2">20-23.</param>
         /// <param name="row3">30-33.</param>
-        public Matrix4fix(FixVec4 row0, FixVec4 row1, FixVec4 row2, FixVec4 row3)
+        public FixMatrix4x4(FixVec4 row0, FixVec4 row1, FixVec4 row2, FixVec4 row3)
         {
             m00 = row0.x;
             m01 = row0.y;
@@ -223,9 +223,9 @@ namespace FixedPointy
             }
         }
 
-        public static Matrix4fix operator *(Matrix4fix lhs, Matrix4fix rhs)
+        public static FixMatrix4x4 operator *(FixMatrix4x4 lhs, FixMatrix4x4 rhs)
         {
-            Matrix4fix mf = new Matrix4fix();
+            FixMatrix4x4 mf = new FixMatrix4x4();
 
             for (int i = 0; i < 4; i++)
             {
