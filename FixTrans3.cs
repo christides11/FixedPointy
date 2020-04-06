@@ -24,6 +24,9 @@ using System;
 
 namespace FixedPointy
 {
+    /// <summary>
+    /// Represents the position, rotation, and scale of a 3d object.
+    /// </summary>
     [Serializable]
     public struct FixTrans3
     {
@@ -48,9 +51,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                cos, -sin, 0, 0,
-                sin, cos, 0, 0,
-                0, 0, 1, 0
+                cos, -sin, 0,  0,
+                sin,  cos, 0,  0,
+                0,      0, 1,  0,
+                0,      0, 0,  1
             );
         }
 
@@ -59,9 +63,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                cos, 0, sin, 0,
-                0, 1, 0, 0,
-                -sin, 0, cos, 0
+                cos,  0, sin, 0,
+                0,    1,   0, 0,
+                -sin, 0, cos, 0,
+                0,    0,   0, 1
             );
         }
 
@@ -70,9 +75,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                1, 0, 0, 0,
-                0, cos, -sin, 0,
-                0, sin, cos, 0
+                1,   0,    0,  0,
+                0, cos, -sin,  0,
+                0, sin,  cos,  0,
+                0,   0,    0,  1
             );
         }
 
@@ -88,7 +94,8 @@ namespace FixedPointy
             return new FixTrans3(
                 scale.X, 0, 0, 0,
                 0, scale.Y, 0, 0,
-                0, 0, scale.Z, 0
+                0, 0, scale.Z, 0,
+                0, 0,       0, 1
             );
         }
 
@@ -97,7 +104,8 @@ namespace FixedPointy
             return new FixTrans3(
                 1, 0, 0, delta.X,
                 0, 1, 0, delta.Y,
-                0, 0, 1, delta.Z
+                0, 0, 1, delta.Z,
+                0, 0, 0, 1
             );
         }
 
@@ -105,24 +113,29 @@ namespace FixedPointy
         public FixMatrix4x4 m;
 
         public FixTrans3(
-            Fix m00, Fix m01, Fix m02, Fix m03,
-            Fix m10, Fix m11, Fix m12, Fix m13,
-            Fix m20, Fix m21, Fix m22, Fix m23
+            Fix m11, Fix m12, Fix m13, Fix m14,
+            Fix m21, Fix m22, Fix m23, Fix m24,
+            Fix m31, Fix m32, Fix m33, Fix m34,
+            Fix m41, Fix m42, Fix m43, Fix m44
         )
         {
             m = new FixMatrix4x4();
-            m.m11 = m00;
-            m.m12 = m01;
-            m.m13 = m02;
-            m.m14 = m03;
-            m.m21 = m10;
-            m.m22 = m11;
-            m.m23 = m12;
-            m.m24 = m13;
-            m.m31 = m20;
-            m.m32 = m21;
-            m.m33 = m22;
-            m.m34 = m23;
+            m.m11 = m11;
+            m.m12 = m12;
+            m.m13 = m13;
+            m.m14 = m14;
+            m.m21 = m21;
+            m.m22 = m22;
+            m.m23 = m23;
+            m.m24 = m24;
+            m.m31 = m31;
+            m.m32 = m32;
+            m.m33 = m33;
+            m.m34 = m34;
+            m.m41 = m41;
+            m.m42 = m42;
+            m.m43 = m43;
+            m.m44 = m44;
         }
 
         public FixTrans3(FixVec3 position, FixVec3 rotation, FixVec3 scale)
@@ -164,7 +177,8 @@ namespace FixedPointy
             return new FixTrans3(
                 m[0, 0] * scale.X, m[0, 1] * scale.X, m[0, 2] * scale.X, m[0, 3] * scale.X,
                 m[1, 0] * scale.Y, m[1, 1] * scale.Y, m[1, 2] * scale.Y, m[1, 3] * scale.Y,
-                m[2, 0] * scale.Z, m[2, 1] * scale.Z, m[2, 2] * scale.Z, m[2, 3] * scale.Z
+                m[2, 0] * scale.Z, m[2, 1] * scale.Z, m[2, 2] * scale.Z, m[2, 3] * scale.Z,
+                0, 0, 0, 1
             );
         }
 
