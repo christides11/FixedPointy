@@ -77,6 +77,7 @@
     <Compile Include="FixedPointy.Tests\Fix-FloatTest.cs" />
     <Compile Include="FixedPointy.Tests\Fix-IntTest.cs" />
     <Compile Include="FixedPointy.Tests\FixMath-Test.cs" />
+    <Compile Include="FixedPointy.Tests\FixMatrix4x4Test.cs" />
     <Compile Include="FixedPointy.Tests\FixQuaternion-Test.cs" />
     <Compile Include="FixedPointy.Tests\FixTrans3-Test.cs" />
     <Compile Include="FixedPointy.Tests\FixVec2-MagnitudeTest.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="FixVec3.cs" />
     <Compile Include="FixTrans3.cs" />
     <Compile Include="FixVec4.cs" />
-    <Compile Include="Matrix4fix.cs" />
+    <Compile Include="FixMatrix4x4.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">

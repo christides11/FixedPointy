@@ -227,14 +227,24 @@ namespace FixedPointy
                 for (int j = 0; j < 4; j++)
                 {
                     mf[i, j] = (
-                        lhs[j,0] * rhs[0, i] +
-                        lhs[j,1] * rhs[1, i] +
-                        lhs[j,2] * rhs[2, i] +
-                        lhs[j,3] * rhs[3, i]);
+                        lhs[i,0] * rhs[0, j] +
+                        lhs[i,1] * rhs[1, j] +
+                        lhs[i,2] * rhs[2, j] +
+                        lhs[i,3] * rhs[3, j]);
                 }
             }
 
             return mf;
+        }
+
+        public override string ToString()
+        {
+            string s = "";
+            for(int i = 0; i < 4; i++)
+            {
+                 s += $"{this[i, 0]}, {this[i, 1]}, {this[i, 2]}, {this[i, 3]}";
+            }
+            return s;
         }
     }
 }
