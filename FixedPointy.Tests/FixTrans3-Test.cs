@@ -28,9 +28,9 @@ namespace FixedPointy.FixedPointy.Tests
 
             FixTrans3 ft = new FixTrans3(pos, rotation, scale);
 
-            Assert.AreEqual(ft.Scale().X.raw, scale.X.raw);
-            Assert.AreEqual(ft.Scale().Y.raw, scale.Y.raw);
-            Assert.AreEqual(ft.Scale().Z.raw, scale.Z.raw);
+            Assert.AreEqual(scale.X.raw, ft.Scale().X.raw);
+            Assert.AreEqual(scale.Y.raw, ft.Scale().Y.raw);
+            Assert.AreEqual(scale.Z.raw, ft.Scale().Z.raw);
         }
 
         [TestCase(5, 10, 15, 5, 10, 15, 5, 10, 15)]

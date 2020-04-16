@@ -178,7 +178,7 @@ namespace FixedPointy
                 m[0, 0] * scale.X, m[0, 1] * scale.X, m[0, 2] * scale.X, m[0, 3] * scale.X,
                 m[1, 0] * scale.Y, m[1, 1] * scale.Y, m[1, 2] * scale.Y, m[1, 3] * scale.Y,
                 m[2, 0] * scale.Z, m[2, 1] * scale.Z, m[2, 2] * scale.Z, m[2, 3] * scale.Z,
-                0, 0, 0, 1
+                0,                 0,                 0,                 1
             );
         }
 
@@ -204,9 +204,9 @@ namespace FixedPointy
         public FixVec3 Scale()
         {
             return new FixVec3(
-                new FixVec3(m[0, 0], m[0, 1], m[0, 2]).GetMagnitude(),
-                new FixVec3(m[1, 0], m[1, 1], m[1, 2]).GetMagnitude(),
-                new FixVec3(m[2, 0], m[2, 1], m[2, 2]).GetMagnitude());
+                new FixVec3(m[0, 0], m[1, 0], m[2, 0]).GetMagnitude(),
+                new FixVec3(m[0, 1], m[1, 1], m[2, 1]).GetMagnitude(),
+                new FixVec3(m[0, 2], m[1, 2], m[2, 2]).GetMagnitude());
         }
 
         //https://gamedev.stackexchange.com/questions/50963/how-to-extract-euler-angles-from-transformation-matrix
