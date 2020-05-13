@@ -25,10 +25,10 @@
 
         public static FixQuaternion operator *(FixQuaternion lhs, FixVec3 rhs)
         {
-            Fix x = lhs.w * rhs.X + lhs.y * rhs.Z - lhs.z * rhs.Y;
-            Fix y = lhs.w * rhs.Y + lhs.z * rhs.X - lhs.x * rhs.Z;
-            Fix z = lhs.w * rhs.Z + lhs.x * rhs.Y - lhs.y * rhs.X;
-            Fix w = -lhs.x * rhs.X - lhs.y * rhs.Y - lhs.z * rhs.Z;
+            Fix x = lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y;
+            Fix y = lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z;
+            Fix z = lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x;
+            Fix w = -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z;
             return new FixQuaternion(x, y, z, w);
         }
 
@@ -69,26 +69,26 @@
             FixVec3 result;
 
             Fix t0 = 2 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y);
-            Fix t1 = Fix.One - (2 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
-            result._z = FixMath.Atan2(t0, t1);
+            Fix t1 = Fix.one - (2 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
+            result.z = FixMath.Atan2(t0, t1);
 
             Fix t2 = 2 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
-            if (t2 >= Fix.One)
+            if (t2 >= Fix.one)
             {
-                result._y = FixMath.PI / 2;
+                result.y = FixMath.PI / 2;
             }
-            else if (t2 <= -Fix.One)
+            else if (t2 <= -Fix.one)
             {
-                result._y = -(FixMath.PI / 2);
+                result.y = -(FixMath.PI / 2);
             }
             else
             {
-                result._y = FixMath.Asin(t2);
+                result.y = FixMath.Asin(t2);
             }
 
             Fix t3 = 2 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z);
-            Fix t4 = Fix.One - (2 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y));
-            result._x = FixMath.Atan2(t3, t4);
+            Fix t4 = Fix.one - (2 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y));
+            result.x = FixMath.Atan2(t3, t4);
             return result;
         }
 
@@ -114,14 +114,14 @@
         /// <param name="vector">The vector3 being converted.</param>
         public FixQuaternion(FixVec3 vector)
         {
-            w = FixMath.Cos(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Cos(vector._x / 2) 
-              + FixMath.Sin(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Sin(vector._x / 2);
-            x = FixMath.Cos(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Sin(vector._x / 2) 
-              - FixMath.Sin(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Cos(vector._x / 2);
-            y = FixMath.Sin(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Sin(vector._x / 2) 
-              + FixMath.Cos(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Cos(vector._x / 2);
-            z = FixMath.Sin(vector._z / 2) * FixMath.Cos(vector._y / 2) * FixMath.Cos(vector._x / 2) 
-              - FixMath.Cos(vector._z / 2) * FixMath.Sin(vector._y / 2) * FixMath.Sin(vector._x / 2);
+            w = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2) 
+              + FixMath.Sin(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Sin(vector.x / 2);
+            x = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2) 
+              - FixMath.Sin(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Cos(vector.x / 2);
+            y = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2) 
+              + FixMath.Cos(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Cos(vector.x / 2);
+            z = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2) 
+              - FixMath.Cos(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Sin(vector.x / 2);
         }
 
         /// <summary>

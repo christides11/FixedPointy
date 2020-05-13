@@ -14,9 +14,9 @@ namespace FixedPointy.FixedPointy.Tests
 
             FixTrans3 ft = new FixTrans3(pos, rotation, scale);
 
-            Assert.AreEqual(ft.Position().X.raw, pos.X.raw);
-            Assert.AreEqual(ft.Position().Y.raw, pos.Y.raw);
-            Assert.AreEqual(ft.Position().Z.raw, pos.Z.raw);
+            Assert.AreEqual(ft.Position().x.raw, pos.x.raw);
+            Assert.AreEqual(ft.Position().y.raw, pos.y.raw);
+            Assert.AreEqual(ft.Position().z.raw, pos.z.raw);
         }
 
         [TestCase(5, 10, 15, 5, 10, 15, 5, 10, 15)]
@@ -28,9 +28,9 @@ namespace FixedPointy.FixedPointy.Tests
 
             FixTrans3 ft = new FixTrans3(pos, rotation, scale);
 
-            Assert.AreEqual(scale.X.raw, ft.Scale().X.raw);
-            Assert.AreEqual(scale.Y.raw, ft.Scale().Y.raw);
-            Assert.AreEqual(scale.Z.raw, ft.Scale().Z.raw);
+            Assert.AreEqual(scale.x.raw, ft.Scale().x.raw);
+            Assert.AreEqual(scale.y.raw, ft.Scale().y.raw);
+            Assert.AreEqual(scale.z.raw, ft.Scale().z.raw);
         }
 
         [TestCase(5, 10, 15, 5, 10, 15, 5, 10, 15)]
@@ -42,9 +42,9 @@ namespace FixedPointy.FixedPointy.Tests
 
             FixTrans3 ft = new FixTrans3(pos, rotation, scale);
 
-            Assert.AreEqual(ft.EulerAngle().X.raw, rotation.X.raw);
-            Assert.AreEqual(ft.EulerAngle().Y.raw, rotation.Y.raw);
-            Assert.AreEqual(ft.EulerAngle().Z.raw, rotation.Z.raw);
+            Assert.AreEqual(ft.EulerAngle().x.raw, rotation.x.raw);
+            Assert.AreEqual(ft.EulerAngle().y.raw, rotation.y.raw);
+            Assert.AreEqual(ft.EulerAngle().z.raw, rotation.z.raw);
         }
     }
 }

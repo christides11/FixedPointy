@@ -44,8 +44,8 @@ namespace FixedPointy {
 
 		public static FixVec2 operator * (FixTrans2 lhs, FixVec2 rhs) {
 			return new FixVec2(
-				lhs._m11 * rhs.X + lhs._m12 * rhs.Y + lhs._m13,
-				lhs._m21 * rhs.X + lhs._m22 * rhs.Y + lhs._m23
+				lhs._m11 * rhs.x + lhs._m12 * rhs.y + lhs._m13,
+				lhs._m21 * rhs.x + lhs._m22 * rhs.y + lhs._m23
 			);
 		}
 
@@ -60,15 +60,15 @@ namespace FixedPointy {
 
 		public static FixTrans2 MakeScale (FixVec2 scale) {
 			return new FixTrans2(
-				scale.X, 0, 0,
-				0, scale.Y, 0
+				scale.x, 0, 0,
+				0, scale.y, 0
 			);
 		}
 
 		public static FixTrans2 MakeTranslation (FixVec2 delta) {
 			return new FixTrans2(
-				1, 0, delta.X,
-				0, 1, delta.Y
+				1, 0, delta.x,
+				0, 1, delta.y
 			);
 		}
 
@@ -86,8 +86,8 @@ namespace FixedPointy {
 			Fix cos = FixMath.Cos(rotation);
 			Fix sin = FixMath.Sin(rotation);
 
-			_m11 = cos * scale.X; _m12 = -sin * scale.X; _m13 = position.X;
-			_m21 = sin * scale.Y; _m22 = cos * scale.Y; _m23 = position.Y;
+			_m11 = cos * scale.x; _m12 = -sin * scale.x; _m13 = position.x;
+			_m21 = sin * scale.y; _m22 = cos * scale.y; _m23 = position.y;
 		}
 
 		public Fix M11 { get { return _m11; } }
@@ -103,15 +103,15 @@ namespace FixedPointy {
 
 		public FixTrans2 Scale (FixVec2 scale) {
 			return new FixTrans2(
-				_m11 * scale.X, _m12 * scale.X, _m13 * scale.X,
-				_m21 * scale.Y, _m22 * scale.Y, _m23 * scale.Y
+				_m11 * scale.x, _m12 * scale.x, _m13 * scale.x,
+				_m21 * scale.y, _m22 * scale.y, _m23 * scale.y
 			);
 		}
 
 		public FixTrans2 Translate (FixVec2 delta) {
 			return new FixTrans2(
-				_m11, _m12, _m13 + delta.X,
-				_m21, _m22, _m23 + delta.Y
+				_m11, _m12, _m13 + delta.x,
+				_m21, _m22, _m23 + delta.y
 			);
 		}
 

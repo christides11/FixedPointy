@@ -10,7 +10,7 @@ namespace FixedPointy
 
         public static implicit operator FixVec4(FixVec2 value)
         {
-            return new FixVec4(value.X, value.Y, 0, 0);
+            return new FixVec4(value.x, value.y, 0, 0);
         }
 
         public static FixVec4 operator +(FixVec4 rhs)

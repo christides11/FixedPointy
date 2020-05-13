@@ -36,8 +36,8 @@ namespace FixedPointy {
 		internal const int MIN_INTEGER = int.MinValue >> FRACTIONAL_BITS;
 		internal const int MAX_INTEGER = int.MaxValue >> FRACTIONAL_BITS;
 
-		public static readonly Fix Zero = new Fix(0);
-		public static readonly Fix One = new Fix(FRACTION_RANGE);
+		public static readonly Fix zero = new Fix(0);
+		public static readonly Fix one = new Fix(FRACTION_RANGE);
 		public static readonly Fix MinValue = new Fix(int.MinValue);
 		public static readonly Fix MaxValue = new Fix(int.MaxValue);
 		public static readonly Fix Epsilon = new Fix(1);
