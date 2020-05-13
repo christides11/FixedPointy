@@ -107,7 +107,8 @@ namespace FixedPointy
             m44 = row3.w;
         }
 
-        public Fix this[int row, int column] {
+        public Fix this[int row, int column]
+        {
             get
             {
                 return this[row * 4 + column];
@@ -227,10 +228,10 @@ namespace FixedPointy
                 for (int j = 0; j < 4; j++)
                 {
                     mf[i, j] = (
-                        lhs[i,0] * rhs[0, j] +
-                        lhs[i,1] * rhs[1, j] +
-                        lhs[i,2] * rhs[2, j] +
-                        lhs[i,3] * rhs[3, j]);
+                        lhs[i, 0] * rhs[0, j] +
+                        lhs[i, 1] * rhs[1, j] +
+                        lhs[i, 2] * rhs[2, j] +
+                        lhs[i, 3] * rhs[3, j]);
                 }
             }
 
@@ -240,9 +241,9 @@ namespace FixedPointy
         public override string ToString()
         {
             string s = "";
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                 s += $"{this[i, 0]}, {this[i, 1]}, {this[i, 2]}, {this[i, 3]}";
+                s += $"{this[i, 0]}, {this[i, 1]}, {this[i, 2]}, {this[i, 3]}";
             }
             return s;
         }

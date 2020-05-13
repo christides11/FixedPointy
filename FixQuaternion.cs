@@ -12,13 +12,13 @@
 
         public static FixQuaternion operator *(FixQuaternion lhs, FixQuaternion rhs)
         {
-            Fix x = lhs.w * rhs.x + lhs.x * rhs.w 
+            Fix x = lhs.w * rhs.x + lhs.x * rhs.w
                 + lhs.y * rhs.z - lhs.z * rhs.y;
-            Fix y = lhs.w * rhs.y + lhs.y * rhs.w 
+            Fix y = lhs.w * rhs.y + lhs.y * rhs.w
                 + lhs.z * rhs.x - lhs.x * rhs.z;
-            Fix z = lhs.w * rhs.z + lhs.z * rhs.w 
+            Fix z = lhs.w * rhs.z + lhs.z * rhs.w
                 + lhs.x * rhs.y - lhs.y * rhs.x;
-            Fix w = lhs.w * rhs.w - lhs.x * rhs.x 
+            Fix w = lhs.w * rhs.w - lhs.x * rhs.x
                 + lhs.y * rhs.y - lhs.z * rhs.z;
             return new FixQuaternion(x, y, z, w);
         }
@@ -34,17 +34,17 @@
 
         public static bool operator ==(FixQuaternion lhs, FixQuaternion rhs)
         {
-            return lhs.x == rhs.x 
-                && lhs.y == rhs.y 
-                && lhs.z == rhs.z 
+            return lhs.x == rhs.x
+                && lhs.y == rhs.y
+                && lhs.z == rhs.z
                 && lhs.w == rhs.w;
         }
 
         public static bool operator !=(FixQuaternion lhs, FixQuaternion rhs)
         {
-            return lhs.x != rhs.x 
-                || lhs.y != rhs.y 
-                || lhs.z != rhs.z 
+            return lhs.x != rhs.x
+                || lhs.y != rhs.y
+                || lhs.z != rhs.z
                 || lhs.w != rhs.w;
         }
 
@@ -114,13 +114,13 @@
         /// <param name="vector">The vector3 being converted.</param>
         public FixQuaternion(FixVec3 vector)
         {
-            w = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2) 
+            w = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2)
               + FixMath.Sin(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Sin(vector.x / 2);
-            x = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2) 
+            x = FixMath.Cos(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2)
               - FixMath.Sin(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Cos(vector.x / 2);
-            y = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2) 
+            y = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Sin(vector.x / 2)
               + FixMath.Cos(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Cos(vector.x / 2);
-            z = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2) 
+            z = FixMath.Sin(vector.z / 2) * FixMath.Cos(vector.y / 2) * FixMath.Cos(vector.x / 2)
               - FixMath.Cos(vector.z / 2) * FixMath.Sin(vector.y / 2) * FixMath.Sin(vector.x / 2);
         }
 

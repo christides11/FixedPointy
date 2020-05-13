@@ -23,66 +23,79 @@
 
 using System;
 
-namespace FixedPointy {
-    [Serializable]
-	public struct FixVec2 {
+namespace FixedPointy
+{
+	[Serializable]
+	public struct FixVec2
+	{
 		public static readonly FixVec2 zero = new FixVec2();
 		public static readonly FixVec2 one = new FixVec2(1, 1);
 		public static readonly FixVec2 right = new FixVec2(1, 0);
 		public static readonly FixVec2 up = new FixVec2(0, 1);
 
-        public static bool operator ==(FixVec2 lhs, FixVec2 rhs)
-        {
-            return lhs.x.raw == rhs.x.raw
-                && lhs.y.raw == rhs.y.raw;
-        }
+		public static bool operator ==(FixVec2 lhs, FixVec2 rhs)
+		{
+			return lhs.x.raw == rhs.x.raw
+				&& lhs.y.raw == rhs.y.raw;
+		}
 
-        public static bool operator !=(FixVec2 lhs, FixVec2 rhs)
-        {
-            return lhs.x.raw != rhs.x.raw
-                || lhs.y.raw != rhs.y.raw;
-        }
+		public static bool operator !=(FixVec2 lhs, FixVec2 rhs)
+		{
+			return lhs.x.raw != rhs.x.raw
+				|| lhs.y.raw != rhs.y.raw;
+		}
 
-        public static FixVec2 operator + (FixVec2 rhs) {
+		public static FixVec2 operator +(FixVec2 rhs)
+		{
 			return rhs;
 		}
-		public static FixVec2 operator - (FixVec2 rhs) {
+		public static FixVec2 operator -(FixVec2 rhs)
+		{
 			return new FixVec2(-rhs.x, -rhs.y);
 		}
 
-		public static FixVec2 operator + (FixVec2 lhs, FixVec2 rhs) {
+		public static FixVec2 operator +(FixVec2 lhs, FixVec2 rhs)
+		{
 			return new FixVec2(lhs.x + rhs.x, lhs.y + rhs.y);
 		}
-		public static FixVec2 operator - (FixVec2 lhs, FixVec2 rhs) {
+		public static FixVec2 operator -(FixVec2 lhs, FixVec2 rhs)
+		{
 			return new FixVec2(lhs.x - rhs.x, lhs.y - rhs.y);
 		}
 
-		public static FixVec2 operator + (FixVec2 lhs, Fix rhs) {
+		public static FixVec2 operator +(FixVec2 lhs, Fix rhs)
+		{
 			return lhs.ScalarAdd(rhs);
 		}
-		public static FixVec2 operator + (Fix lhs, FixVec2 rhs) {
+		public static FixVec2 operator +(Fix lhs, FixVec2 rhs)
+		{
 			return rhs.ScalarAdd(lhs);
 		}
-		public static FixVec2 operator - (FixVec2 lhs, Fix rhs) {
+		public static FixVec2 operator -(FixVec2 lhs, Fix rhs)
+		{
 			return new FixVec2(lhs.x - rhs, lhs.y - rhs);
 		}
 		public static FixVec2 operator *(FixVec2 lhs, FixVec3 rhs)
 		{
 			return new FixVec2(lhs.x * rhs.x, lhs.y * rhs.y);
 		}
-		public static FixVec2 operator * (FixVec2 lhs, Fix rhs) {
+		public static FixVec2 operator *(FixVec2 lhs, Fix rhs)
+		{
 			return lhs.ScalarMultiply(rhs);
 		}
-		public static FixVec2 operator * (Fix lhs, FixVec2 rhs) {
+		public static FixVec2 operator *(Fix lhs, FixVec2 rhs)
+		{
 			return rhs.ScalarMultiply(lhs);
 		}
-		public static FixVec2 operator / (FixVec2 lhs, Fix rhs) {
+		public static FixVec2 operator /(FixVec2 lhs, Fix rhs)
+		{
 			return new FixVec2(lhs.x / rhs, lhs.y / rhs);
 		}
 
 		public Fix x, y;
 
-		public FixVec2 (Fix x, Fix y) {
+		public FixVec2(Fix x, Fix y)
+		{
 			this.x = x;
 			this.y = y;
 		}
@@ -119,31 +132,36 @@ namespace FixedPointy {
 			return FixMath.Acos(dot) * (360 / (FixMath.PI * (Fix)2)); // acos * Rad2Deg
 		}
 
-		public Fix Dot (FixVec2 rhs) {
+		public Fix Dot(FixVec2 rhs)
+		{
 			return x * rhs.x + y * rhs.y;
 		}
 
-		public Fix Cross (FixVec2 rhs) {
+		public Fix Cross(FixVec2 rhs)
+		{
 			return x * rhs.y - y * rhs.x;
 		}
 
-		FixVec2 ScalarAdd (Fix value) {
+		FixVec2 ScalarAdd(Fix value)
+		{
 			return new FixVec2(x + value, y + value);
 		}
-		FixVec2 ScalarMultiply (Fix value) {
+		FixVec2 ScalarMultiply(Fix value)
+		{
 			return new FixVec2(x * value, y * value);
 		}
 
-		public Fix GetMagnitude () {
+		public Fix GetMagnitude()
+		{
 			ulong N = (ulong)((long)x.raw * (long)x.raw + (long)y.raw * (long)y.raw);
 
 			return new Fix((int)(FixMath.SqrtULong(N << 2) + 1) >> 1);
 		}
 
-        public Fix GetMagnitudeSquared()
-        {
-            return (x*x)+(y*y);
-        }
+		public Fix GetMagnitudeSquared()
+		{
+			return (x * x) + (y * y);
+		}
 
 		public void Normalize()
 		{
@@ -166,27 +184,28 @@ namespace FixedPointy {
 			return new FixVec2(x / m, y / m);
 		}
 
-		public override string ToString () {
+		public override string ToString()
+		{
 			return string.Format("({0}, {1})", x, y);
 		}
 
-        public override bool Equals(Object obj)
-        {
-            //Check for null and compare run-time types.
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                FixVec2 fv = (FixVec2)obj;
-                return x == fv.x.raw && y.raw == fv.y.raw;
-            }
-        }
+		public override bool Equals(Object obj)
+		{
+			//Check for null and compare run-time types.
+			if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+			{
+				return false;
+			}
+			else
+			{
+				FixVec2 fv = (FixVec2)obj;
+				return x == fv.x.raw && y.raw == fv.y.raw;
+			}
+		}
 
-        public override int GetHashCode()
-        {
-            return x.raw.GetHashCode() ^ y.raw.GetHashCode() << 2;
-        }
-    }
+		public override int GetHashCode()
+		{
+			return x.raw.GetHashCode() ^ y.raw.GetHashCode() << 2;
+		}
+	}
 }

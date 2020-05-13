@@ -7,10 +7,10 @@ namespace FixedPointy.FixedPointy.Tests
     public class FixMatrix4x4Test
     {
         [TestCase(
-            9,  1,  3, 8,
+            9, 1, 3, 8,
             10, 15, 1, 8,
-            4,   4, 2, 8,
-            10,  9, 2, 20)]
+            4, 4, 2, 8,
+            10, 9, 2, 20)]
         public void MultiplyMatrixes(
             int m00, int m01, int m02, int m03,
             int m10, int m11, int m12, int m13,

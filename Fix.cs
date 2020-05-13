@@ -24,9 +24,11 @@
 using System;
 using System.Text;
 
-namespace FixedPointy {
-    [Serializable]
-	public struct Fix {
+namespace FixedPointy
+{
+	[Serializable]
+	public struct Fix
+	{
 		internal const int FRACTIONAL_BITS = 16;
 
 		internal const int INTEGER_BITS = sizeof(int) * 8 - FRACTIONAL_BITS;
@@ -42,9 +44,10 @@ namespace FixedPointy {
 		public static readonly Fix MaxValue = new Fix(int.MaxValue);
 		public static readonly Fix Epsilon = new Fix(1);
 
-        internal const long ONE_RAW = 1 << FRACTIONAL_BITS;
+		internal const long ONE_RAW = 1 << FRACTIONAL_BITS;
 
-        static Fix () {
+		static Fix()
+		{
 			if (FRACTIONAL_BITS < 8)
 				throw new Exception("Fix must have at least 8 fractional bits.");
 			if (INTEGER_BITS < 10)
@@ -61,7 +64,8 @@ namespace FixedPointy {
 		public static int MinInteger { get { return MIN_INTEGER; } }
 		public static int MaxInteger { get { return MAX_INTEGER; } }
 
-		public static Fix Mix (int integer, int numerator, int denominator) {
+		public static Fix Mix(int integer, int numerator, int denominator)
+		{
 			if (numerator < 0 || denominator < 0)
 				throw new ArgumentException("Ratio must be positive.");
 
@@ -71,114 +75,138 @@ namespace FixedPointy {
 			return new Fix((integer << FRACTIONAL_BITS) + fraction);
 		}
 
-		public static Fix Ratio (int numerator, int denominator) {
+		public static Fix Ratio(int numerator, int denominator)
+		{
 			return new Fix((int)((((long)numerator << (FRACTIONAL_BITS + 1)) / (long)denominator + 1) >> 1));
 		}
 
-        public static explicit operator double (Fix value) {
-		 	return (double)(value.raw >> FRACTIONAL_BITS) + (value.raw & FRACTION_MASK) / (double)FRACTION_RANGE;
+		public static explicit operator double(Fix value)
+		{
+			return (double)(value.raw >> FRACTIONAL_BITS) + (value.raw & FRACTION_MASK) / (double)FRACTION_RANGE;
 		}
 
-		public static explicit operator float (Fix value) {
+		public static explicit operator float(Fix value)
+		{
 			return (float)(double)value;
 		}
 
-        public static explicit operator Fix(double value)
-        {
-            return new Fix((int)(value * ONE_RAW));
-        }
+		public static explicit operator Fix(double value)
+		{
+			return new Fix((int)(value * ONE_RAW));
+		}
 
-        public static explicit operator Fix(float value)
-        {
-            return new Fix((int)((double)value * ONE_RAW));
-        }
+		public static explicit operator Fix(float value)
+		{
+			return new Fix((int)((double)value * ONE_RAW));
+		}
 
-        public static explicit operator int (Fix value) {
+		public static explicit operator int(Fix value)
+		{
 			if (value.raw > 0)
 				return value.raw >> FRACTIONAL_BITS;
 			else
 				return (value.raw + FRACTION_MASK) >> FRACTIONAL_BITS;
 		}
 
-		public static implicit operator Fix (int value) {
+		public static implicit operator Fix(int value)
+		{
 			return new Fix(value << FRACTIONAL_BITS);
 		}
 
-		public static bool operator == (Fix lhs, Fix rhs) {
+		public static bool operator ==(Fix lhs, Fix rhs)
+		{
 			return lhs.raw == rhs.raw;
 		}
 
-		public static bool operator != (Fix lhs, Fix rhs) {
+		public static bool operator !=(Fix lhs, Fix rhs)
+		{
 			return lhs.raw != rhs.raw;
 		}
 
-		public static bool operator > (Fix lhs, Fix rhs) {
+		public static bool operator >(Fix lhs, Fix rhs)
+		{
 			return lhs.raw > rhs.raw;
 		}
 
-		public static bool operator >= (Fix lhs, Fix rhs) {
+		public static bool operator >=(Fix lhs, Fix rhs)
+		{
 			return lhs.raw >= rhs.raw;
 		}
 
-		public static bool operator < (Fix lhs, Fix rhs) {
+		public static bool operator <(Fix lhs, Fix rhs)
+		{
 			return lhs.raw < rhs.raw;
 		}
 
-		public static bool operator <= (Fix lhs, Fix rhs) {
+		public static bool operator <=(Fix lhs, Fix rhs)
+		{
 			return lhs.raw <= rhs.raw;
 		}
 
-		public static Fix operator + (Fix value) {
+		public static Fix operator +(Fix value)
+		{
 			return value;
 		}
 
-		public static Fix operator - (Fix value) {
+		public static Fix operator -(Fix value)
+		{
 			return new Fix(-value.raw);
 		}
 
-		public static Fix operator + (Fix lhs, Fix rhs) {
+		public static Fix operator +(Fix lhs, Fix rhs)
+		{
 			return new Fix(lhs.raw + rhs.raw);
 		}
 
-		public static Fix operator - (Fix lhs, Fix rhs) {
+		public static Fix operator -(Fix lhs, Fix rhs)
+		{
 			return new Fix(lhs.raw - rhs.raw);
 		}
 
-		public static Fix operator * (Fix lhs, Fix rhs) {
+		public static Fix operator *(Fix lhs, Fix rhs)
+		{
 			return new Fix((int)(((long)lhs.raw * (long)rhs.raw + (FRACTION_RANGE >> 1)) >> FRACTIONAL_BITS));
 		}
 
-		public static Fix operator / (Fix lhs, Fix rhs) {
+		public static Fix operator /(Fix lhs, Fix rhs)
+		{
 			return new Fix((int)((((long)lhs.raw << (FRACTIONAL_BITS + 1)) / (long)rhs.raw + 1) >> 1));
 		}
 
-		public static Fix operator % (Fix lhs, Fix rhs) {
+		public static Fix operator %(Fix lhs, Fix rhs)
+		{
 			return new Fix(lhs.raw % rhs.raw);
 		}
 
-		public static Fix operator << (Fix lhs, int rhs) {
+		public static Fix operator <<(Fix lhs, int rhs)
+		{
 			return new Fix(lhs.raw << rhs);
 		}
 
-		public static Fix operator >> (Fix lhs, int rhs) {
+		public static Fix operator >>(Fix lhs, int rhs)
+		{
 			return new Fix(lhs.raw >> rhs);
 		}
 
 		public int raw;
 
-		public Fix (int Raw) {
+		public Fix(int Raw)
+		{
 			raw = Raw;
 		}
 
-		public override bool Equals (object obj) {
+		public override bool Equals(object obj)
+		{
 			return (obj is Fix && ((Fix)obj) == this);
 		}
 
-		public override int GetHashCode () {
+		public override int GetHashCode()
+		{
 			return raw.GetHashCode();
 		}
 
-		public override string ToString () {
+		public override string ToString()
+		{
 			var sb = new StringBuilder();
 			if (raw < 0)
 				sb.Append(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NegativeSign);

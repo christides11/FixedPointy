@@ -51,10 +51,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                cos, -sin, 0,  0,
-                sin,  cos, 0,  0,
-                0,      0, 1,  0,
-                0,      0, 0,  1
+                cos, -sin, 0, 0,
+                sin, cos, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
             );
         }
 
@@ -63,10 +63,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                cos,  0, sin, 0,
-                0,    1,   0, 0,
+                cos, 0, sin, 0,
+                0, 1, 0, 0,
                 -sin, 0, cos, 0,
-                0,    0,   0, 1
+                0, 0, 0, 1
             );
         }
 
@@ -75,10 +75,10 @@ namespace FixedPointy
             Fix cos = FixMath.Cos(degrees);
             Fix sin = FixMath.Sin(degrees);
             return new FixTrans3(
-                1,   0,    0,  0,
-                0, cos, -sin,  0,
-                0, sin,  cos,  0,
-                0,   0,    0,  1
+                1, 0, 0, 0,
+                0, cos, -sin, 0,
+                0, sin, cos, 0,
+                0, 0, 0, 1
             );
         }
 
@@ -95,7 +95,7 @@ namespace FixedPointy
                 scale.x, 0, 0, 0,
                 0, scale.y, 0, 0,
                 0, 0, scale.z, 0,
-                0, 0,       0, 1
+                0, 0, 0, 1
             );
         }
 
@@ -178,7 +178,7 @@ namespace FixedPointy
                 m[0, 0] * scale.x, m[0, 1] * scale.x, m[0, 2] * scale.x, m[0, 3] * scale.x,
                 m[1, 0] * scale.y, m[1, 1] * scale.y, m[1, 2] * scale.y, m[1, 3] * scale.y,
                 m[2, 0] * scale.z, m[2, 1] * scale.z, m[2, 2] * scale.z, m[2, 3] * scale.z,
-                0,                 0,                 0,                 1
+                0, 0, 0, 1
             );
         }
 
@@ -213,7 +213,7 @@ namespace FixedPointy
         public FixVec3 EulerAngle()
         {
             FixVec3 ea = new FixVec3();
-            
+
             ea.x = FixMath.Atan2(-m[1, 2], m[2, 2]);
 
             Fix cosYangle = FixMath.Sqrt(FixMath.Pow(m[0, 0], 2) + FixMath.Pow(m[0, 1], 2));
@@ -222,7 +222,7 @@ namespace FixedPointy
             Fix sinXangle = FixMath.Sin(ea.x);
             Fix cosXangle = FixMath.Cos(ea.x);
             ea.z = FixMath.Atan2((cosXangle * m[1, 0]) + (sinXangle * m[2, 0]), (cosXangle * m[1, 1]) + (sinXangle * m[2, 1]));
-            
+
             return ea;
         }
 
