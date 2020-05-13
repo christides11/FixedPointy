@@ -30,9 +30,9 @@ namespace FixedPointy
 	{
 		public static readonly FixVec3 zero = new FixVec3();
 		public static readonly FixVec3 one = new FixVec3(1, 1, 1);
-		public static readonly FixVec3 UnitX = new FixVec3(1, 0, 0);
-		public static readonly FixVec3 UnitY = new FixVec3(0, 1, 0);
-		public static readonly FixVec3 UnitZ = new FixVec3(0, 0, 1);
+		public static readonly FixVec3 right = new FixVec3(1, 0, 0);
+		public static readonly FixVec3 up = new FixVec3(0, 1, 0);
+		public static readonly FixVec3 forward = new FixVec3(0, 0, 1);
 
 		public static implicit operator FixVec3(FixVec2 value)
 		{
@@ -91,6 +91,20 @@ namespace FixedPointy
 			this.z = z;
 		}
 
+		public static Fix Dot(FixVec3 lhs, FixVec3 rhs)
+		{
+			return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+		}
+
+		public static FixVec3 Cross(FixVec3 lhs, FixVec3 rhs)
+		{
+			return new FixVec3(
+				lhs.y * rhs.z - lhs.z * rhs.y,
+				lhs.z * rhs.x - lhs.x * rhs.z,
+				lhs.x * rhs.y - lhs.y * rhs.x
+			);
+		}
+
 		public Fix Dot(FixVec3 rhs)
 		{
 			return x * rhs.x + y * rhs.y + z * rhs.z;
@@ -145,6 +159,20 @@ namespace FixedPointy
 		public override string ToString()
 		{
 			return string.Format("({0}, {1}, {2})", x, y, z);
+		}
+
+		public override bool Equals(Object obj)
+		{
+			//Check for null and compare run-time types.
+			if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+			{
+				return false;
+			}
+			else
+			{
+				FixVec3 fv = (FixVec3)obj;
+				return x == fv.x.raw && y.raw == fv.y.raw && z.raw == fv.z.raw;
+			}
 		}
 	}
 }

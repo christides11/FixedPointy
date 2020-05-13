@@ -82,11 +82,19 @@ namespace FixedPointy
 
 		public static explicit operator double(Fix value)
 		{
+			if(value.raw == 0)
+			{
+				return 0;
+			}
 			return (double)(value.raw >> FRACTIONAL_BITS) + (value.raw & FRACTION_MASK) / (double)FRACTION_RANGE;
 		}
 
 		public static explicit operator float(Fix value)
 		{
+			if(value.raw == 0)
+			{
+				return 0;
+			}
 			return (float)(double)value;
 		}
 

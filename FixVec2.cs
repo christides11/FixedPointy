@@ -58,23 +58,26 @@ namespace FixedPointy
 		{
 			return new FixVec2(lhs.x + rhs.x, lhs.y + rhs.y);
 		}
-		public static FixVec2 operator -(FixVec2 lhs, FixVec2 rhs)
-		{
-			return new FixVec2(lhs.x - rhs.x, lhs.y - rhs.y);
-		}
 
 		public static FixVec2 operator +(FixVec2 lhs, Fix rhs)
 		{
 			return lhs.ScalarAdd(rhs);
 		}
+		
 		public static FixVec2 operator +(Fix lhs, FixVec2 rhs)
 		{
 			return rhs.ScalarAdd(lhs);
 		}
+		
 		public static FixVec2 operator -(FixVec2 lhs, Fix rhs)
 		{
 			return new FixVec2(lhs.x - rhs, lhs.y - rhs);
 		}
+		public static FixVec2 operator -(FixVec2 lhs, FixVec2 rhs)
+		{
+			return new FixVec2(lhs.x - rhs.x, lhs.y - rhs.y);
+		}
+		
 		public static FixVec2 operator *(FixVec2 lhs, FixVec3 rhs)
 		{
 			return new FixVec2(lhs.x * rhs.x, lhs.y * rhs.y);
@@ -87,6 +90,7 @@ namespace FixedPointy
 		{
 			return rhs.ScalarMultiply(lhs);
 		}
+
 		public static FixVec2 operator /(FixVec2 lhs, Fix rhs)
 		{
 			return new FixVec2(lhs.x / rhs, lhs.y / rhs);
@@ -98,6 +102,21 @@ namespace FixedPointy
 		{
 			this.x = x;
 			this.y = y;
+		}
+
+		public static FixVec2 Abs(FixVec2 v)
+		{
+			return new FixVec2(FixMath.Abs(v.x), FixMath.Abs(v.y));
+		}
+
+		public static FixVec2 Min(FixVec2 pointA, FixVec2 t)
+		{
+			return new FixVec2(FixMath.Min(pointA.x, t.x), FixMath.Min(pointA.y, t.y));
+		}
+
+		public static FixVec2 Max(FixVec2 pointA, FixVec2 t)
+		{
+			return new FixVec2(FixMath.Max(pointA.x, t.x), FixMath.Max(pointA.y, t.y));
 		}
 
 		public static Fix Dot(FixVec2 lhs, FixVec2 rhs)
@@ -129,7 +148,7 @@ namespace FixedPointy
 			}
 
 			Fix dot = FixMath.Clamp(FixVec2.Dot(from, to) / denominator, -Fix.one, Fix.one);
-			return FixMath.Acos(dot) * (360 / (FixMath.PI * (Fix)2)); // acos * Rad2Deg
+			return FixMath.Acos(dot) * FixMath.Rad2Deg;
 		}
 
 		public Fix Dot(FixVec2 rhs)

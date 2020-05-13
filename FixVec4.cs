@@ -90,6 +90,19 @@ namespace FixedPointy
         public FixVec4 Normalize()
         {
             if (x == 0 && y == 0 && z == 0 && w == 0)
+                return this;
+
+            var m = GetMagnitude();
+            x /= m;
+            y /= m;
+            z /= m;
+            w /= m;
+            return this;
+        }
+
+        public FixVec4 Normalized()
+        {
+            if (x == 0 && y == 0 && z == 0 && w == 0)
                 return FixVec4.Zero;
 
             var m = GetMagnitude();
@@ -99,6 +112,23 @@ namespace FixedPointy
         public override string ToString()
         {
             return string.Format("({0}, {1}, {2}, {3})", x, y, z, w);
+        }
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                FixVec4 fv = (FixVec4)obj;
+                return x == fv.x.raw 
+                    && y.raw == fv.y.raw 
+                    && z.raw == fv.z.raw
+                    && w.raw == fv.w.raw;
+            }
         }
     }
 }

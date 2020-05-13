@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace FixedPointy.FixedPointy.Tests
 {
@@ -12,9 +13,7 @@ namespace FixedPointy.FixedPointy.Tests
         public void ConvertToFromFix(int val)
         {
             var fix = (Fix)val;
-
             var result = (int)fix;
-
             Assert.AreEqual(val, result, 0);
         }
     }

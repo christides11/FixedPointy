@@ -33,7 +33,8 @@ namespace FixedPointy
 		static FixConst _log2_10Const = new FixConst(14267572527);
 		static FixConst _ln2Const = new FixConst(2977044472);
 		static FixConst _log10_2Const = new FixConst(1292913986);
-		static FixConst _deg2RadConst = new FixConst(74961320);
+		static FixConst _deg2RadConst = new FixConst(74961321);
+		static FixConst _rad2DegConst = new FixConst(246083499208);
 
 		const int _quarterSineResPower = 2;
 		#region Sine Table
